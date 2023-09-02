@@ -45,7 +45,7 @@ public class WallJumpLogic {
         if (!WallJumpLogic.canWallJump(pl))
             return;
 
-        if (pl.isOnGround() || pl.getAbilities().flying || pl.isInWater()) {
+        if (pl.onGround() || pl.getAbilities().flying || pl.isInWater()) {
             ticksWallClinged = 0;
             clingX = Double.NaN;
             clingZ = Double.NaN;
@@ -74,10 +74,10 @@ public class WallJumpLogic {
             return;
         }
 
-        if (!ClientProxy.KEY_WALL_JUMP.isDown() || pl.isOnGround() || pl.isInWater() || walls.isEmpty() || pl.getFoodData().getFoodLevel() < 1) {
+        if (!ClientProxy.KEY_WALL_JUMP.isDown() || pl.onGround() || pl.isInWater() || walls.isEmpty() || pl.getFoodData().getFoodLevel() < 1) {
             ticksWallClinged = 0;
 
-            if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.isOnGround() && !walls.isEmpty()) {
+            if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
                 pl.fallDistance = 0.0F;
                 PacketHandler.INSTANCE.sendToServer(new MessageWallJump());
 
@@ -127,7 +127,7 @@ public class WallJumpLogic {
         if (pl.onClimbable() || pl.getDeltaMovement().y > 0.1 || pl.getFoodData().getFoodLevel() < 1)
             return false;
 
-        if (ClientProxy.collidesWithBlock(pl.level, pl.getBoundingBox().move(0, -0.8, 0))) return false;
+        if (ClientProxy.collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
 
         if (WallJumpModConfig.COMMON.allowReClinging.get() || pl.position().y < lastJumpY - 1) return true;
 
@@ -146,7 +146,7 @@ public class WallJumpLogic {
         WallJumpLogic.walls = new HashSet<>();
         for (AABB axis : axes) {
             direction = Direction.from2DDataValue(i++);
-            if (ClientProxy.collidesWithBlock(pl.level, axis)) {
+            if (ClientProxy.collidesWithBlock(pl.level(), axis)) {
                 walls.add(direction);
                 pl.horizontalCollision = true;
             }
@@ -159,7 +159,7 @@ public class WallJumpLogic {
 
     private static BlockPos getWallPos(LocalPlayer player) {
         BlockPos pos = player.getOnPos().relative(getClingDirection());
-        return player.level.getBlockState(pos).getMaterial().isSolid() ? pos : pos.relative(Direction.UP);
+        return player.level().getBlockState(pos).isSolid() ? pos : pos.relative(Direction.UP);
     }
 
     private static void wallJump(LocalPlayer pl, float up) {
@@ -186,25 +186,25 @@ public class WallJumpLogic {
     }
 
     private static void playHitSound(Entity entity, BlockPos pos) {
-        BlockState state = entity.level.getBlockState(pos);
-        SoundType soundtype = state.getBlock().getSoundType(state, entity.level, pos, entity);
+        BlockState state = entity.level().getBlockState(pos);
+        SoundType soundtype = state.getBlock().getSoundType(state, entity.level(), pos, entity);
         entity.playSound(soundtype.getHitSound(), soundtype.getVolume() * 0.25F, soundtype.getPitch());
     }
 
     private static void playBreakSound(Entity entity, BlockPos pos) {
-        BlockState state = entity.level.getBlockState(pos);
-        SoundType soundtype = state.getBlock().getSoundType(state, entity.level, pos, entity);
+        BlockState state = entity.level().getBlockState(pos);
+        SoundType soundtype = state.getBlock().getSoundType(state, entity.level(), pos, entity);
         entity.playSound(soundtype.getFallSound(), soundtype.getVolume() * 0.5F, soundtype.getPitch());
     }
 
     private static void spawnWallParticle(Entity entity, BlockPos blockPos) {
-        BlockState state = entity.level.getBlockState(blockPos);
+        BlockState state = entity.level().getBlockState(blockPos);
         if (state.getRenderShape() != RenderShape.INVISIBLE) {
 
             Vec3 pos = entity.position();
             Vec3i motion = getClingDirection().getNormal();
 
-            entity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(blockPos), pos.x, pos.y,
+            entity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(blockPos), pos.x, pos.y,
                     pos.z, motion.getX() * -1.0D, -1.0D, motion.getZ() * -1.0D);
         }
     }

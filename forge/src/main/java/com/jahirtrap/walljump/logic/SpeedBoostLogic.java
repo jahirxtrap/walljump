@@ -38,11 +38,11 @@ public class SpeedBoostLogic {
                 if (motion.length() <= boost.length())
                     pl.setDeltaMovement(motion.add(boost.multiply(0.05, 0.05, 0.05)));
                 if (boost.length() > 0.5)
-                    pl.level.addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
+                    pl.level().addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
             }
         } else if (pl.isSprinting()) {
             float sprintSpeedBoost = (WallJumpModConfig.COMMON.sprintSpeedBoost.get().floatValue() + (getEquipmentBoost(pl, EquipmentSlot.FEET) * 0.25f));
-            if (!pl.isOnGround()) sprintSpeedBoost /= 3.125;
+            if (!pl.onGround()) sprintSpeedBoost /= 3.125;
 
             Vec3 boost = new Vec3(look.x, 0.0, look.z).scale(sprintSpeedBoost * 0.125F);
             pl.setDeltaMovement(motion.add(boost));

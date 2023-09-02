@@ -48,7 +48,7 @@ public class ClientProxy extends CommonProxy {
         SpeedBoostLogic.doSpeedBoost(pl);
 
         if (pl.horizontalCollision && WallJumpModConfig.COMMON.stepAssist.get() && pl.getDeltaMovement().y > -0.2 && pl.getDeltaMovement().y < 0.01) {
-            if (!ClientProxy.collidesWithBlock(pl.level, pl.getBoundingBox().inflate(0.01, -pl.maxUpStep() + 0.02, 0.01))) {
+            if (!ClientProxy.collidesWithBlock(pl.level(), pl.getBoundingBox().inflate(0.01, -pl.maxUpStep() + 0.02, 0.01))) {
                 pl.setOnGround(true);
             }
         }
