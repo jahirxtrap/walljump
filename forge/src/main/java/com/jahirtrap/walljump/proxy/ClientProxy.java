@@ -10,10 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
 
@@ -28,14 +27,13 @@ public class ClientProxy extends CommonProxy {
 
     private static FallingSound FALLING_SOUND;
 
-    public static boolean collidesWithBlock(Level level, AABB box) {
-        return !level.noCollision(box);
+    @SubscribeEvent
+    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(KEY_WALL_JUMP);
     }
 
-    @Override
-    public void setupClient() {
-        ClientRegistry.registerKeyBinding(KEY_WALL_JUMP);
-        MinecraftForge.EVENT_BUS.register(this);
+    public static boolean collidesWithBlock(Level level, AABB box) {
+        return !level.noCollision(box);
     }
 
     @SubscribeEvent
@@ -68,7 +66,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @SubscribeEvent
-    public void onJoinWorld(EntityJoinWorldEvent event) {
+    public void onJoinWorld(EntityJoinLevelEvent event) {
         if (event.getEntity() == minecraft.player && WallJumpModConfig.COMMON.playFallSound.get()) {
             FALLING_SOUND = new FallingSound(minecraft.player);
             minecraft.getSoundManager().play(FALLING_SOUND);

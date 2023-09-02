@@ -5,6 +5,7 @@ import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -13,7 +14,7 @@ public class FallingSound extends AbstractTickableSoundInstance {
     private final AbstractClientPlayer player;
 
     public FallingSound(AbstractClientPlayer player) {
-        super(SoundEvents.ELYTRA_FLYING, SoundSource.PLAYERS);
+        super(SoundEvents.ELYTRA_FLYING, SoundSource.PLAYERS, RandomSource.create());
         this.player = player;
         this.looping = true;
         this.delay = 0;
