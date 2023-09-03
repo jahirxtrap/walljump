@@ -1,6 +1,6 @@
 package com.jahirtrap.walljump.logic;
 
-import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -11,9 +11,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class FallingSound extends AbstractTickableSoundInstance {
-    private final AbstractClientPlayer player;
+    private final LocalPlayer player;
 
-    public FallingSound(AbstractClientPlayer player) {
+    public FallingSound(LocalPlayer player) {
         super(SoundEvents.ELYTRA_FLYING, SoundSource.PLAYERS, RandomSource.create());
         this.player = player;
         this.looping = true;
