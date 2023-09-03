@@ -11,6 +11,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,13 +28,15 @@ public class ClientProxy extends CommonProxy {
 
     private static FallingSound FALLING_SOUND;
 
-    @SubscribeEvent
-    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(KEY_WALL_JUMP);
-    }
-
     public static boolean collidesWithBlock(Level level, AABB box) {
         return !level.noCollision(box);
+    }
+
+    @Override
+    public void setupClient() {
+        RegisterKeyMappingsEvent event = new RegisterKeyMappingsEvent(minecraft.options);
+        event.register(KEY_WALL_JUMP);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent

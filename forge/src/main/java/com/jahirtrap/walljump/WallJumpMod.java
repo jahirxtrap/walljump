@@ -10,6 +10,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -26,11 +27,15 @@ public class WallJumpMod {
         WallJumpEnchantments.ENCHANTMENTS.register(bus);
 
         bus.addListener(this::onCommonSetup);
-        bus.addListener(ClientProxy::registerKeyMappings);
+        bus.addListener(this::onClientSetup);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WallJumpModConfig.COMMON_SPEC);
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event) {
         PROXY.setupCommon();
+    }
+
+    private void onClientSetup(FMLClientSetupEvent event) {
+        PROXY.setupClient();
     }
 }

@@ -13,6 +13,9 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    public void setupClient() {
+    }
+
     @SubscribeEvent
     public void onLivingFall(LivingFallEvent event) {
 
