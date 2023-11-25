@@ -8,7 +8,7 @@
 		"${mod_author}"
 	],
 	"contributors": [
-		"${mod_credits}"
+		"genandnic"
 	],
 	"contact": {
 		"homepage": "${mod_url}"
@@ -28,9 +28,9 @@
 		"fabricloader": "${loader_version_range}",
 		"minecraft": "${minecraft_version_range}",
 		"java": ">=17",
-		"fabric": "*",
-		"forgeconfigapiport": "${forgeconfigapiport_version_range}",
-		"com_electronwill_night-config_core": "*",
-		"com_electronwill_night-config_toml": "*"
-	}
+		"fabric": "*"
+	},
+	"jars": [{
+      		"file": "META-INF/jars/configlibtxf-${configlibtxf_version}-fabric.jar"
+    	}]
 }

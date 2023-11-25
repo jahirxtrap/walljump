@@ -20,7 +20,7 @@ public class CommonProxy {
     public void onLivingFall(LivingFallEvent event) {
 
         float distance = event.getDistance();
-        if (distance > 3 && distance <= WallJumpModConfig.COMMON.minFallDistance.get()) {
+        if (distance > 3 && distance <= WallJumpModConfig.minFallDistance) {
             event.setDistance(3.0F);
             event.getEntity().playSound(SoundEvents.GENERIC_SMALL_FALL, 0.5F, 1.0F);
         }

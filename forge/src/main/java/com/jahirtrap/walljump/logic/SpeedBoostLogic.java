@@ -33,7 +33,7 @@ public class SpeedBoostLogic {
                 if (pl.getXRot() < 30f)
                     pl.setDeltaMovement(motion.subtract(motion.multiply(0.05, 0.05, 0.05)));
             } else if (pl.isSprinting()) {
-                float elytraSpeedBoost = WallJumpModConfig.COMMON.elytraSpeedBoost.get().floatValue() + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * 0.5f);
+                float elytraSpeedBoost = (float) (WallJumpModConfig.elytraSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * 0.5f));
                 Vec3 boost = new Vec3(look.x, look.y, look.z).normalize().scale(elytraSpeedBoost);
                 if (motion.length() <= boost.length())
                     pl.setDeltaMovement(motion.add(boost.multiply(0.05, 0.05, 0.05)));
@@ -41,7 +41,7 @@ public class SpeedBoostLogic {
                     pl.level.addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
             }
         } else if (pl.isSprinting()) {
-            float sprintSpeedBoost = (WallJumpModConfig.COMMON.sprintSpeedBoost.get().floatValue() + (getEquipmentBoost(pl, EquipmentSlot.FEET) * 0.25f));
+            float sprintSpeedBoost = (float) (WallJumpModConfig.sprintSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.FEET) * 0.25f));
             if (!pl.isOnGround()) sprintSpeedBoost /= 3.125;
 
             Vec3 boost = new Vec3(look.x, 0.0, look.z).scale(sprintSpeedBoost * 0.125F);
