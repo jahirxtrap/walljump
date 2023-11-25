@@ -46,7 +46,7 @@ public class DoubleJumpLogic {
 
     private static int getMultiJumps(LocalPlayer pl) {
         int jumpCount = 0;
-        if (WallJumpModConfig.COMMON.useDoubleJump.get()) jumpCount += 1;
+        if (WallJumpModConfig.useDoubleJump) jumpCount += 1;
 
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
