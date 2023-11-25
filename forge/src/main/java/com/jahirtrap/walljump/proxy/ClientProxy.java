@@ -49,7 +49,7 @@ public class ClientProxy extends CommonProxy {
         DoubleJumpLogic.doDoubleJump(pl);
         SpeedBoostLogic.doSpeedBoost(pl);
 
-        if (pl.horizontalCollision && WallJumpModConfig.COMMON.stepAssist.get() && pl.getDeltaMovement().y > -0.2 && pl.getDeltaMovement().y < 0.01) {
+        if (pl.horizontalCollision && WallJumpModConfig.stepAssist && pl.getDeltaMovement().y > -0.2 && pl.getDeltaMovement().y < 0.01) {
             if (!ClientProxy.collidesWithBlock(pl.level, pl.getBoundingBox().inflate(0.01, -pl.maxUpStep + 0.02, 0.01))) {
                 pl.setOnGround(true);
             }
@@ -60,7 +60,7 @@ public class ClientProxy extends CommonProxy {
 
         if (pl.fallDistance > 1.5 && !pl.isFallFlying()) {
 
-            if (WallJumpModConfig.COMMON.playFallSound.get() && (FALLING_SOUND == null || FALLING_SOUND.isStopped())) {
+            if (WallJumpModConfig.playFallSound && (FALLING_SOUND == null || FALLING_SOUND.isStopped())) {
                 FALLING_SOUND = new FallingSound(pl);
                 minecraft.getSoundManager().play(FALLING_SOUND);
             }
@@ -69,7 +69,7 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void onJoinWorld(EntityJoinWorldEvent event) {
-        if (event.getEntity() == minecraft.player && WallJumpModConfig.COMMON.playFallSound.get()) {
+        if (event.getEntity() == minecraft.player && WallJumpModConfig.playFallSound) {
             FALLING_SOUND = new FallingSound(minecraft.player);
             minecraft.getSoundManager().play(FALLING_SOUND);
         }
