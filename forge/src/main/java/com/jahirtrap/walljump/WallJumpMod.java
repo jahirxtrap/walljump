@@ -4,31 +4,32 @@ import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import com.jahirtrap.walljump.proxy.ClientProxy;
 import com.jahirtrap.walljump.proxy.CommonProxy;
-import net.minecraftforge.common.MinecraftForge;
+import com.jahirtrap.walljump.util.configlib.TXFConfig;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(WallJumpMod.MODID)
-@Mod.EventBusSubscriber(modid = WallJumpMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WallJumpMod {
     public static final String MODID = "walljump";
     public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public WallJumpMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        MinecraftForge.EVENT_BUS.register(this);
+
+        TXFConfig.init(MODID, WallJumpModConfig.class);
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
+                new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> TXFConfig.getScreen(parent, MODID)));
 
         WallJumpEnchantments.ENCHANTMENTS.register(bus);
 
         bus.addListener(this::onCommonSetup);
         bus.addListener(this::onClientSetup);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WallJumpModConfig.COMMON_SPEC);
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event) {

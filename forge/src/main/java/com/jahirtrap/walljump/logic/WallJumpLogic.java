@@ -60,7 +60,7 @@ public class WallJumpLogic {
 
         if (ticksWallClinged < 1) {
             if (ticksKeyDown > 0 && ticksKeyDown < 4 && !walls.isEmpty() && canWallCling(pl)) {
-                if (WallJumpModConfig.COMMON.autoRotation.get())
+                if (WallJumpModConfig.autoRotation)
                     pl.setYRot(getClingDirection().getOpposite().toYRot());
 
                 ticksWallClinged = 1;
@@ -81,7 +81,7 @@ public class WallJumpLogic {
                 pl.fallDistance = 0.0F;
                 PacketHandler.INSTANCE.sendToServer(new MessageWallJump());
 
-                wallJump(pl, WallJumpModConfig.COMMON.wallJumpHeight.get().floatValue());
+                wallJump(pl, (float) WallJumpModConfig.wallJumpHeight);
                 staleWalls = new HashSet<>(walls);
             }
 
@@ -96,7 +96,7 @@ public class WallJumpLogic {
         } else if (motionY < -0.6) {
             motionY = motionY + 0.2;
             spawnWallParticle(pl, getWallPos(pl));
-        } else if (ticksWallClinged++ > WallJumpModConfig.COMMON.wallSlideDelay.get()) {
+        } else if (ticksWallClinged++ > WallJumpModConfig.wallSlideDelay) {
             motionY = -0.1;
             spawnWallParticle(pl, getWallPos(pl));
         } else {
@@ -112,7 +112,7 @@ public class WallJumpLogic {
     }
 
     private static boolean canWallJump(LocalPlayer pl) {
-        if (WallJumpModConfig.COMMON.useWallJump.get()) return true;
+        if (WallJumpModConfig.useWallJump) return true;
 
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
@@ -129,7 +129,7 @@ public class WallJumpLogic {
 
         if (ClientProxy.collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
 
-        if (WallJumpModConfig.COMMON.allowReClinging.get() || pl.position().y < lastJumpY - 1) return true;
+        if (WallJumpModConfig.allowReClinging || pl.position().y < lastJumpY - 1) return true;
 
         return !staleWalls.containsAll(walls);
     }
