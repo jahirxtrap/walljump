@@ -4,8 +4,8 @@ import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class SpeedBoostLogic {
     public static void doSpeedBoost(LocalPlayer pl) {
         int jumpBoostLevel = 0;
-        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffect.byId(8));
+        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP);
         if (jumpBoostEffect != null) jumpBoostLevel = jumpBoostEffect.getAmplifier() + 1;
         pl.flyDist = (float) (pl.getSpeed() * (pl.isSprinting() ? 1 : 1.3) / 5) * (jumpBoostLevel * 0.5f + 1);
 
@@ -33,7 +33,7 @@ public class SpeedBoostLogic {
                 if (pl.getXRot() < 30f)
                     pl.setDeltaMovement(motion.subtract(motion.multiply(0.05, 0.05, 0.05)));
             } else if (pl.isSprinting()) {
-                float elytraSpeedBoost = WallJumpModConfig.COMMON.elytraSpeedBoost.get().floatValue() + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * 0.5f);
+                float elytraSpeedBoost = (float) WallJumpModConfig.elytraSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * 0.5f);
                 Vec3 boost = new Vec3(look.x, look.y, look.z).normalize().scale(elytraSpeedBoost);
                 if (motion.length() <= boost.length())
                     pl.setDeltaMovement(motion.add(boost.multiply(0.05, 0.05, 0.05)));
@@ -41,7 +41,7 @@ public class SpeedBoostLogic {
                     pl.level().addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
             }
         } else if (pl.isSprinting()) {
-            float sprintSpeedBoost = (WallJumpModConfig.COMMON.sprintSpeedBoost.get().floatValue() + (getEquipmentBoost(pl, EquipmentSlot.FEET) * 0.25f));
+            float sprintSpeedBoost = ((float) WallJumpModConfig.sprintSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.FEET) * 0.25f));
             if (!pl.onGround()) sprintSpeedBoost /= 3.125;
 
             Vec3 boost = new Vec3(look.x, 0.0, look.z).scale(sprintSpeedBoost * 0.125F);

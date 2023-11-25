@@ -4,6 +4,7 @@ import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import com.jahirtrap.walljump.network.PacketHandler;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +36,7 @@ public class DoubleJumpLogic {
                 jumpCount--;
 
                 pl.fallDistance = 0.0F;
-                PacketHandler.INSTANCE.sendToServer(new MessageFallDistance(pl.fallDistance));
+                PacketHandler.INSTANCE.send(new MessageFallDistance(pl.fallDistance), Minecraft.getInstance().getConnection().getConnection());
             }
 
             jumpKey = true;
@@ -46,7 +47,7 @@ public class DoubleJumpLogic {
 
     private static int getMultiJumps(LocalPlayer pl) {
         int jumpCount = 0;
-        if (WallJumpModConfig.COMMON.useDoubleJump.get()) jumpCount += 1;
+        if (WallJumpModConfig.useDoubleJump) jumpCount += 1;
 
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {

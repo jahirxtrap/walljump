@@ -6,14 +6,15 @@ import com.jahirtrap.walljump.network.PacketHandler;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import com.jahirtrap.walljump.network.message.MessageWallJump;
 import com.jahirtrap.walljump.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -60,7 +61,7 @@ public class WallJumpLogic {
 
         if (ticksWallClinged < 1) {
             if (ticksKeyDown > 0 && ticksKeyDown < 4 && !walls.isEmpty() && canWallCling(pl)) {
-                if (WallJumpModConfig.COMMON.autoRotation.get())
+                if (WallJumpModConfig.autoRotation)
                     pl.setYRot(getClingDirection().getOpposite().toYRot());
 
                 ticksWallClinged = 1;
@@ -79,9 +80,9 @@ public class WallJumpLogic {
 
             if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
                 pl.fallDistance = 0.0F;
-                PacketHandler.INSTANCE.sendToServer(new MessageWallJump());
+                PacketHandler.INSTANCE.send(new MessageWallJump(), Minecraft.getInstance().getConnection().getConnection());
 
-                wallJump(pl, WallJumpModConfig.COMMON.wallJumpHeight.get().floatValue());
+                wallJump(pl, (float) WallJumpModConfig.wallJumpHeight);
                 staleWalls = new HashSet<>(walls);
             }
 
@@ -96,7 +97,7 @@ public class WallJumpLogic {
         } else if (motionY < -0.6) {
             motionY = motionY + 0.2;
             spawnWallParticle(pl, getWallPos(pl));
-        } else if (ticksWallClinged++ > WallJumpModConfig.COMMON.wallSlideDelay.get()) {
+        } else if (ticksWallClinged++ > WallJumpModConfig.wallSlideDelay) {
             motionY = -0.1;
             spawnWallParticle(pl, getWallPos(pl));
         } else {
@@ -105,14 +106,14 @@ public class WallJumpLogic {
 
         if (pl.fallDistance > 2) {
             pl.fallDistance = 0;
-            PacketHandler.INSTANCE.sendToServer(new MessageFallDistance((float) (motionY * motionY * 8)));
+            PacketHandler.INSTANCE.send(new MessageFallDistance((float) (motionY * motionY * 8)), Minecraft.getInstance().getConnection().getConnection());
         }
 
         pl.setDeltaMovement(0.0, motionY, 0.0);
     }
 
     private static boolean canWallJump(LocalPlayer pl) {
-        if (WallJumpModConfig.COMMON.useWallJump.get()) return true;
+        if (WallJumpModConfig.useWallJump) return true;
 
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
@@ -129,7 +130,7 @@ public class WallJumpLogic {
 
         if (ClientProxy.collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
 
-        if (WallJumpModConfig.COMMON.allowReClinging.get() || pl.position().y < lastJumpY - 1) return true;
+        if (WallJumpModConfig.allowReClinging || pl.position().y < lastJumpY - 1) return true;
 
         return !staleWalls.containsAll(walls);
     }
@@ -174,7 +175,7 @@ public class WallJumpLogic {
         float f2 = (float) (Math.cos(pl.getYRot() * 0.017453292F) * 0.45f);
 
         int jumpBoostLevel = 0;
-        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffect.byId(8));
+        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP);
         if (jumpBoostEffect != null) jumpBoostLevel = jumpBoostEffect.getAmplifier() + 1;
 
         Vec3 motion = pl.getDeltaMovement();

@@ -3,7 +3,7 @@ package com.jahirtrap.walljump.network.message;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.function.Supplier;
 
@@ -15,15 +15,15 @@ public class MessageWallJump implements IMessage<MessageWallJump> {
         return new MessageWallJump();
     }
 
-    public void handle(MessageWallJump message, Supplier<NetworkEvent.Context> supplier) {
-        supplier.get().enqueueWork(() ->
+    public void handle(MessageWallJump message, CustomPayloadEvent.Context context) {
+        context.enqueueWork(() ->
         {
-            ServerPlayer player = supplier.get().getSender();
+            ServerPlayer player = context.getSender();
             if (player != null) {
                 player.fallDistance = 0.0F;
-                player.causeFoodExhaustion(WallJumpModConfig.COMMON.exhaustionWallJump.get().floatValue());
+                player.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
             }
         });
-        supplier.get().setPacketHandled(true);
+        context.setPacketHandled(true);
     }
 }
