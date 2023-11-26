@@ -1,9 +1,18 @@
 {
   "required": true,
-  "package": "com.jahirtrap.walljump.init.mixin",
+  "package": "com.jahirtrap.walljump.logic.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "Mixin",
+    "PlayerFallDistanceMixin"
+  ],
+  "client": [
+    "ClientLevelFallingSoundMixin",
+    "KeyMappingAccessor",
+    "KeyMappingMixin",
+    "LocalPlayerDoubleJumpMixin",
+    "LocalPlayerSpeedBoostMixin",
+    "LocalPlayerStepAssistMixin",
+    "LocalPlayerWallJumpMixin"
   ],
   "injectors": {
     "defaultRequire": 1
