@@ -8,7 +8,8 @@
 		"${mod_author}"
 	],
 	"contributors": [
-		"genandnic"
+		"genandnic",
+		"fzzyhmstrs"
 	],
 	"contact": {
 		"homepage": "${mod_url}"
@@ -19,6 +20,9 @@
 	"entrypoints": {
 		"main": [
 			"com.jahirtrap.walljump.WallJumpMod"
+		],
+		"client": [
+			"com.jahirtrap.walljump.WallJumpClient"
 		]
 	},
 	"mixins": [
@@ -30,6 +34,7 @@
 		"java": ">=17",
 		"fabric": "*"
 	},
+	"accessWidener" : "${mod_id}.accesswidener",
 	"jars": [{
       		"file": "META-INF/jars/configlibtxf-${configlibtxf_version}-fabric.jar"
     	}]
