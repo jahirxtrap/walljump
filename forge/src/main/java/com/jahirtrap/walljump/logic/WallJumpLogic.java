@@ -12,8 +12,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -45,7 +45,7 @@ public class WallJumpLogic {
         if (!WallJumpLogic.canWallJump(pl))
             return;
 
-        if (pl.onGround() || pl.getAbilities().flying || pl.isInWater()) {
+        if (pl.onGround() || pl.getAbilities().flying || !pl.level().getFluidState(pl.blockPosition()).isEmpty() || pl.isHandsBusy()) {
             ticksWallClinged = 0;
             clingX = Double.NaN;
             clingZ = Double.NaN;
@@ -60,12 +60,14 @@ public class WallJumpLogic {
 
         if (ticksWallClinged < 1) {
             if (ticksKeyDown > 0 && ticksKeyDown < 4 && !walls.isEmpty() && canWallCling(pl)) {
-                if (WallJumpModConfig.autoRotation)
+                if (WallJumpModConfig.autoRotation) {
                     pl.setYRot(getClingDirection().getOpposite().toYRot());
+                    pl.yRotO = pl.getYRot();
+                }
 
                 ticksWallClinged = 1;
-                clingX = pl.position().x;
-                clingZ = pl.position().z;
+                clingX = pl.getX();
+                clingZ = pl.getZ();
 
                 playHitSound(pl, getWallPos(pl));
                 spawnWallParticle(pl, getWallPos(pl));
@@ -74,7 +76,7 @@ public class WallJumpLogic {
             return;
         }
 
-        if (!ClientProxy.KEY_WALL_JUMP.isDown() || pl.onGround() || pl.isInWater() || walls.isEmpty() || pl.getFoodData().getFoodLevel() < 1) {
+        if (!ClientProxy.KEY_WALL_JUMP.isDown() || pl.onGround() || !pl.level().getFluidState(pl.blockPosition()).isEmpty() || walls.isEmpty() || pl.getFoodData().getFoodLevel() < 1) {
             ticksWallClinged = 0;
 
             if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
@@ -88,7 +90,7 @@ public class WallJumpLogic {
             return;
         }
 
-        pl.setPos(clingX, pl.position().y, clingZ);
+        pl.setPos(clingX, pl.getY(), clingZ);
 
         double motionY = pl.getDeltaMovement().y;
         if (motionY > 0.0) {
@@ -129,7 +131,7 @@ public class WallJumpLogic {
 
         if (ClientProxy.collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
 
-        if (WallJumpModConfig.allowReClinging || pl.position().y < lastJumpY - 1) return true;
+        if (WallJumpModConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
 
         return !staleWalls.containsAll(walls);
     }
@@ -158,8 +160,8 @@ public class WallJumpLogic {
     }
 
     private static BlockPos getWallPos(LocalPlayer player) {
-        BlockPos pos = player.getOnPos().relative(getClingDirection());
-        return player.level().getBlockState(pos).isSolid() ? pos : pos.relative(Direction.UP);
+        BlockPos blockPos = player.getOnPos().relative(getClingDirection());
+        return player.level().getBlockState(blockPos).isSolid() ? blockPos : blockPos.relative(Direction.UP);
     }
 
     private static void wallJump(LocalPlayer pl, float up) {
@@ -174,33 +176,32 @@ public class WallJumpLogic {
         float f2 = (float) (Math.cos(pl.getYRot() * 0.017453292F) * 0.45f);
 
         int jumpBoostLevel = 0;
-        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffect.byId(8));
+        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP);
         if (jumpBoostEffect != null) jumpBoostLevel = jumpBoostEffect.getAmplifier() + 1;
 
         Vec3 motion = pl.getDeltaMovement();
-        pl.setDeltaMovement(motion.x + (strafe * f2 - forward * f1), up + (jumpBoostLevel * .125), motion.z + (forward * f2 + strafe * f1));
+        pl.setDeltaMovement(motion.x + (strafe * f2 - forward * f1), up + (jumpBoostLevel * 0.125), motion.z + (forward * f2 + strafe * f1));
 
-        lastJumpY = pl.position().y;
+        lastJumpY = pl.getY();
         playBreakSound(pl, getWallPos(pl));
         spawnWallParticle(pl, getWallPos(pl));
     }
 
-    private static void playHitSound(Entity entity, BlockPos pos) {
-        BlockState state = entity.level().getBlockState(pos);
-        SoundType soundtype = state.getBlock().getSoundType(state, entity.level(), pos, entity);
+    private static void playHitSound(Entity entity, BlockPos blockPos) {
+        BlockState state = entity.level().getBlockState(blockPos);
+        SoundType soundtype = state.getBlock().getSoundType(state, entity.level(), blockPos, entity);
         entity.playSound(soundtype.getHitSound(), soundtype.getVolume() * 0.25F, soundtype.getPitch());
     }
 
-    private static void playBreakSound(Entity entity, BlockPos pos) {
-        BlockState state = entity.level().getBlockState(pos);
-        SoundType soundtype = state.getBlock().getSoundType(state, entity.level(), pos, entity);
+    private static void playBreakSound(Entity entity, BlockPos blockPos) {
+        BlockState state = entity.level().getBlockState(blockPos);
+        SoundType soundtype = state.getBlock().getSoundType(state, entity.level(), blockPos, entity);
         entity.playSound(soundtype.getFallSound(), soundtype.getVolume() * 0.5F, soundtype.getPitch());
     }
 
     private static void spawnWallParticle(Entity entity, BlockPos blockPos) {
         BlockState state = entity.level().getBlockState(blockPos);
         if (state.getRenderShape() != RenderShape.INVISIBLE) {
-
             Vec3 pos = entity.position();
             Vec3i motion = getClingDirection().getNormal();
 
