@@ -15,8 +15,8 @@ Wall jump, double jump, fence jump & more
 
 <strong>Steep Assist:</strong> Walk up steps even while airborne, also jump over fences
 
-<strong>Forge dependencies:</strong>
+<strong>Fabric/Quilt dependencies:</strong>
 
-- <a href="https://www.curseforge.com/minecraft/mc-mods/configured" target="_blank">Configured mod</a> or <a href="https://www.curseforge.com/minecraft/mc-mods/config-menus-forge" target="_blank">Forge Config Screens mod</a> <strong>(Optional)</strong>
+- <a href="https://modrinth.com/mod/modmenu" target="_blank">Mod Menu mod</a> <strong>(Optional)</strong>
 
 <img src="https://cdn.modrinth.com/data/oUoetxfR/images/ccab85538f124c14fc7b772ddaff7c4c4097593a.png">
