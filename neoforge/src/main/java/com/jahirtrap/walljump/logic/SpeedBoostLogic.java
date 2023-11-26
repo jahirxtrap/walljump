@@ -31,12 +31,12 @@ public class SpeedBoostLogic {
         if (pl.isFallFlying()) {
             if (pl.isCrouching()) {
                 if (pl.getXRot() < 30f)
-                    pl.setDeltaMovement(motion.subtract(motion.multiply(0.05, 0.05, 0.05)));
+                    pl.setDeltaMovement(motion.subtract(motion.scale(0.05)));
             } else if (pl.isSprinting()) {
                 float elytraSpeedBoost = (float) (WallJumpModConfig.elytraSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * 0.5f));
                 Vec3 boost = new Vec3(look.x, look.y, look.z).normalize().scale(elytraSpeedBoost);
                 if (motion.length() <= boost.length())
-                    pl.setDeltaMovement(motion.add(boost.multiply(0.05, 0.05, 0.05)));
+                    pl.setDeltaMovement(motion.add(boost.scale(0.05)));
                 if (boost.length() > 0.5)
                     pl.level().addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
             }

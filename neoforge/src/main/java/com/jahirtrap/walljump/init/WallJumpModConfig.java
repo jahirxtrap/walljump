@@ -6,7 +6,7 @@ public class WallJumpModConfig extends TXFConfig {
     @Entry(name = "Allow Re Clinging")
     public static boolean allowReClinging = true;
     @Entry(name = "Auto Rotation")
-    public static boolean autoRotation = true;
+    public static boolean autoRotation = false;
     @Entry(name = "Enable Enchantments")
     public static boolean enableEnchantments = true;
     @Entry(name = "Exhaustion Wall Jump", min = 0.0, max = 5.0)
