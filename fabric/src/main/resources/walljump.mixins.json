@@ -7,8 +7,6 @@
   ],
   "client": [
     "ClientLevelFallingSoundMixin",
-    "KeyMappingAccessor",
-    "KeyMappingMixin",
     "LocalPlayerDoubleJumpMixin",
     "LocalPlayerSpeedBoostMixin",
     "LocalPlayerStepAssistMixin",

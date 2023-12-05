@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.resources.ResourceLocation;
 
 public class WallJumpMod implements ModInitializer {
+
     public static final String MODID = "walljump";
     public static final ResourceLocation FALL_DISTANCE_PACKET_ID = new ResourceLocation(MODID, "fall_distance");
     public static final ResourceLocation WALL_JUMP_PACKET_ID = new ResourceLocation(MODID, "wall_jump");

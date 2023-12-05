@@ -1,6 +1,6 @@
 package com.jahirtrap.walljump.init;
 
-import com.jahirtrap.walljump.util.configlib.TXFConfig;
+import com.jahirtrap.configlib.TXFConfig;
 
 public class WallJumpModConfig extends TXFConfig {
     @Entry(name = "Allow Re Clinging")
