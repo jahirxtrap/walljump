@@ -1,5 +1,6 @@
 package com.jahirtrap.walljump;
 
+import com.jahirtrap.keybindfix.KeybindFixer;
 import com.jahirtrap.walljump.logic.FallingSound;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -11,6 +12,7 @@ import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class WallJumpClient implements ClientModInitializer {
+
     public static KeyMapping KEY_WALL_JUMP = new KeyMapping(
             "key.walljump.walljump",
             GLFW.GLFW_KEY_LEFT_SHIFT,
@@ -22,6 +24,7 @@ public class WallJumpClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         KeyBindingHelper.registerKeyBinding(KEY_WALL_JUMP);
+        KeybindFixer.putKey(KEY_WALL_JUMP);
         FALLING_SOUND = new FallingSound(Minecraft.getInstance().player);
     }
 }
