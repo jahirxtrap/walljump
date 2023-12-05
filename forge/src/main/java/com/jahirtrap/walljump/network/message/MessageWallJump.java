@@ -5,8 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 
-import java.util.function.Supplier;
-
 public class MessageWallJump implements IMessage<MessageWallJump> {
     public void encode(MessageWallJump message, FriendlyByteBuf buffer) {
     }

@@ -1,10 +1,10 @@
 package com.jahirtrap.walljump;
 
+import com.jahirtrap.configlib.TXFConfig;
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import com.jahirtrap.walljump.proxy.ClientProxy;
 import com.jahirtrap.walljump.proxy.CommonProxy;
-import com.jahirtrap.walljump.util.configlib.TXFConfig;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
@@ -17,6 +17,7 @@ import net.neoforged.neoforge.client.ConfigScreenHandler;
 
 @Mod(WallJumpMod.MODID)
 public class WallJumpMod {
+
     public static final String MODID = "walljump";
     public static final CommonProxy PROXY = (FMLEnvironment.dist == Dist.CLIENT) ? new ClientProxy() : new CommonProxy();
 

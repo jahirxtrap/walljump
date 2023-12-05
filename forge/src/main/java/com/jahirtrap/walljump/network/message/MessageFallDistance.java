@@ -3,8 +3,6 @@ package com.jahirtrap.walljump.network.message;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 
-import java.util.function.Supplier;
-
 public class MessageFallDistance implements IMessage<MessageFallDistance> {
     private float fallDistance;
 

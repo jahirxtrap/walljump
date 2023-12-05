@@ -5,7 +5,9 @@ import com.jahirtrap.walljump.network.message.IMessage;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import com.jahirtrap.walljump.network.message.MessageWallJump;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.network.*;
+import net.minecraftforge.network.Channel;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.SimpleChannel;
 
 public final class PacketHandler {
     public static final int PROTOCOL_VERSION = 1;
