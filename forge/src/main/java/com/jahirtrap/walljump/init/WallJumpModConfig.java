@@ -7,8 +7,6 @@ public class WallJumpModConfig extends TXFConfig {
     public static boolean allowReClinging = true;
     @Entry(name = "Auto Rotation")
     public static boolean autoRotation = false;
-    @Entry(name = "Enable Enchantments")
-    public static boolean enableEnchantments = true;
     @Entry(name = "Exhaustion Wall Jump", min = 0.0, max = 5.0)
     public static double exhaustionWallJump = 0.8;
     @Entry(name = "Min Fall Distance", min = 3.0, max = 256)
@@ -29,4 +27,14 @@ public class WallJumpModConfig extends TXFConfig {
     public static int wallSlideDelay = 15;
     @Entry(name = "Play Fall Sound")
     public static boolean playFallSound = true;
+    @Comment(centered = true)
+    public static Comment enchantments;
+    @Entry(name = "Enable Enchantments")
+    public static boolean enableEnchantments = true;
+    @Entry(name = "Enable Wall Jump Enchantment")
+    public static boolean enableWallJump = true;
+    @Entry(name = "Enable Double Jump Enchantment")
+    public static boolean enableDoubleJump = true;
+    @Entry(name = "Enable Speed Boost Enchantment")
+    public static boolean enableSpeedBoost = true;
 }
