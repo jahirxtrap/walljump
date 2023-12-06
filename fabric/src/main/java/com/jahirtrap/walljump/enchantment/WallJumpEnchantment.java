@@ -34,7 +34,7 @@ public class WallJumpEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(ItemStack stack) {
-        if (WallJumpModConfig.useWallJump || !WallJumpModConfig.enableEnchantments)
+        if (WallJumpModConfig.useWallJump || !WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableWallJump)
             return false;
         return stack.getItem() instanceof ArmorItem && stack.isEnchantable();
     }
