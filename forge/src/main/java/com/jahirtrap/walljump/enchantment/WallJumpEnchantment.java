@@ -33,7 +33,7 @@ public class WallJumpEnchantment extends Enchantment {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        if (WallJumpModConfig.useWallJump || !WallJumpModConfig.enableEnchantments)
+        if (WallJumpModConfig.useWallJump || !WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableWallJump)
             return false;
         return stack.canApplyAtEnchantingTable(this);
     }

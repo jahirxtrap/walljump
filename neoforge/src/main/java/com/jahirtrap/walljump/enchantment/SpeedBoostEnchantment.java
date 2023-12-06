@@ -39,7 +39,7 @@ public class SpeedBoostEnchantment extends Enchantment {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        if (!WallJumpModConfig.enableEnchantments)
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableSpeedBoost)
             return false;
         return stack.canApplyAtEnchantingTable(this);
     }
