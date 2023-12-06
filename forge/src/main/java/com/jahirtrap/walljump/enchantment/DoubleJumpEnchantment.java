@@ -41,7 +41,7 @@ public class DoubleJumpEnchantment extends Enchantment {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        if (!WallJumpModConfig.enableEnchantments)
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
             return false;
         return stack.canApplyAtEnchantingTable(this);
     }

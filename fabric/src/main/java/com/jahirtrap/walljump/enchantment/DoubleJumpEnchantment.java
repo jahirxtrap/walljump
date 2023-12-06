@@ -42,7 +42,7 @@ public class DoubleJumpEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(ItemStack stack) {
-        if (!WallJumpModConfig.enableEnchantments)
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
             return false;
         return stack.getItem() instanceof ArmorItem && stack.isEnchantable();
     }
