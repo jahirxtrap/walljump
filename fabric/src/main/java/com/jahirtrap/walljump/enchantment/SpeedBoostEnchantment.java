@@ -35,7 +35,7 @@ public class SpeedBoostEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(ItemStack stack) {
-        if (!WallJumpModConfig.enableEnchantments)
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableSpeedBoost)
             return false;
         return stack.isEnchantable() && (stack.getItem() instanceof ElytraItem || stack.getItem() instanceof ArmorItem);
     }
