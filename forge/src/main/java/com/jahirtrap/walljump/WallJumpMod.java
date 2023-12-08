@@ -1,10 +1,10 @@
 package com.jahirtrap.walljump;
 
-import com.jahirtrap.configlib.TXFConfig;
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import com.jahirtrap.walljump.proxy.ClientProxy;
 import com.jahirtrap.walljump.proxy.CommonProxy;
+import com.jahirtrap.walljump.util.configlib.TXFConfig;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
