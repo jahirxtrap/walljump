@@ -7,6 +7,8 @@ public class WallJumpModConfig extends TXFConfig {
     public static boolean allowReClinging = true;
     @Entry(name = "Auto Rotation")
     public static boolean autoRotation = false;
+    @Entry(name = "On Fall Double Jump")
+    public static boolean onFallDoubleJump = true;
     @Entry(name = "Exhaustion Wall Jump", min = 0.0, max = 5.0)
     public static double exhaustionWallJump = 0.8;
     @Entry(name = "Min Fall Distance", min = 3.0, max = 256)
@@ -25,6 +27,8 @@ public class WallJumpModConfig extends TXFConfig {
     public static double wallJumpHeight = 0.55;
     @Entry(name = "Wall Slide Delay", min = 0, max = Integer.MAX_VALUE)
     public static int wallSlideDelay = 15;
+    @Entry(name = "Stop Wall Slide Delay", min = 0, max = Integer.MAX_VALUE)
+    public static int stopWallSlideDelay = 72000;
     @Entry(name = "Play Fall Sound")
     public static boolean playFallSound = true;
     @Comment(centered = true)
