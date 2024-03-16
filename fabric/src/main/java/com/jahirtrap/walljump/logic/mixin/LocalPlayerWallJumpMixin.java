@@ -43,6 +43,8 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
     public Input input;
 
     public int ticksWallClinged;
+    public int ticksWallSlid;
+    public boolean stopSlid = false;
     private int ticksKeyDown;
     private double clingX, clingZ;
     private double lastJumpY = Double.MAX_VALUE;
@@ -68,6 +70,8 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
 
         if (this.isOnGround() || this.getAbilities().flying || !this.level.getFluidState(this.blockPosition()).isEmpty() || this.isHandsBusy()) {
             this.ticksWallClinged = 0;
+            this.ticksWallSlid = 0;
+            this.stopSlid = false;
             this.clingX = Double.NaN;
             this.clingZ = Double.NaN;
             this.lastJumpY = Double.MAX_VALUE;
@@ -75,6 +79,8 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
 
             return;
         }
+
+        if (stopSlid) return;
 
         this.updateWalls();
         this.ticksKeyDown = WallJumpClient.KEY_WALL_JUMP.isDown() ? this.ticksKeyDown + 1 : 0;
@@ -126,6 +132,7 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
             motionY = motionY + 0.2;
             this.spawnWallParticle(this.getWallPos());
         } else if (this.ticksWallClinged++ > WallJumpModConfig.wallSlideDelay) {
+            if (ticksWallSlid++ > WallJumpModConfig.stopWallSlideDelay) stopSlid = true;
             motionY = -0.1;
             this.spawnWallParticle(this.getWallPos());
         } else {

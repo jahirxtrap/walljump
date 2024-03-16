@@ -45,6 +45,7 @@ public abstract class LocalPlayerDoubleJumpMixin extends AbstractClientPlayer im
     private void doDoubleJump() {
         var pos = this.position();
         var motion = this.getDeltaMovement();
+        if (!WallJumpModConfig.onFallDoubleJump && motion.y < -0.80) return;
 
         var box = new AABB(pos.x(), pos.y() + this.getEyeHeight(this.getPose()) * 0.8, pos.z(), pos.x(), pos.y() + this.getBbHeight(), pos.z());
 
@@ -55,7 +56,7 @@ public abstract class LocalPlayerDoubleJumpMixin extends AbstractClientPlayer im
                 this.jumpFromGround();
                 this.jumpCount--;
 
-                this.fallDistance = 0.0F;
+                this.resetFallDistance();
                 var passedData = new FriendlyByteBuf(Unpooled.buffer());
                 passedData.writeFloat(this.fallDistance);
                 ClientPlayNetworking.send(WallJumpMod.FALL_DISTANCE_PACKET_ID, passedData);
