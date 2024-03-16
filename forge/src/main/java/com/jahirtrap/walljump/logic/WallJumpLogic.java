@@ -35,6 +35,8 @@ import java.util.Set;
 public class WallJumpLogic {
 
     public static int ticksWallClinged;
+    public static int ticksWallSlid;
+    public static boolean stopSlid = false;
     private static int ticksKeyDown;
     private static double clingX, clingZ;
     private static double lastJumpY = Double.MAX_VALUE;
@@ -47,6 +49,8 @@ public class WallJumpLogic {
 
         if (pl.isOnGround() || pl.getAbilities().flying || !pl.level.getFluidState(pl.blockPosition()).isEmpty() || pl.isHandsBusy()) {
             ticksWallClinged = 0;
+            ticksWallSlid = 0;
+            stopSlid = false;
             clingX = Double.NaN;
             clingZ = Double.NaN;
             lastJumpY = Double.MAX_VALUE;
@@ -54,6 +58,8 @@ public class WallJumpLogic {
 
             return;
         }
+
+        if (stopSlid) return;
 
         WallJumpLogic.updateWalls(pl);
         ticksKeyDown = ClientProxy.KEY_WALL_JUMP.isDown() ? ticksKeyDown + 1 : 0;
@@ -99,6 +105,7 @@ public class WallJumpLogic {
             motionY = motionY + 0.2;
             spawnWallParticle(pl, getWallPos(pl));
         } else if (ticksWallClinged++ > WallJumpModConfig.wallSlideDelay) {
+            if (ticksWallSlid++ > WallJumpModConfig.stopWallSlideDelay) stopSlid = true;
             motionY = -0.1;
             spawnWallParticle(pl, getWallPos(pl));
         } else {
