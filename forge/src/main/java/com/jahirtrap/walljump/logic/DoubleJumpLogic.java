@@ -24,6 +24,7 @@ public class DoubleJumpLogic {
     public static void doDoubleJump(LocalPlayer pl) {
         Vec3 pos = pl.position();
         Vec3 motion = pl.getDeltaMovement();
+        if (!WallJumpModConfig.onFallDoubleJump && motion.y < -0.80) return;
 
         AABB box = new AABB(pos.x, pos.y + (pl.getEyeHeight() * .8), pos.z, pos.x, pos.y + pl.getBbHeight(), pos.z);
 
@@ -34,7 +35,7 @@ public class DoubleJumpLogic {
                 pl.jumpFromGround();
                 jumpCount--;
 
-                pl.fallDistance = 0.0F;
+                pl.resetFallDistance();
                 PacketHandler.INSTANCE.sendToServer(new MessageFallDistance(pl.fallDistance));
             }
 
