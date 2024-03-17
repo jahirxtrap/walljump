@@ -133,7 +133,7 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
             motionY = motionY + 0.2;
             this.spawnWallParticle(this.getWallPos());
         } else if (this.ticksWallClinged++ > WallJumpModConfig.wallSlideDelay) {
-            if (ticksWallSlid++ > WallJumpModConfig.stopWallSlideDelay) stopSlid = true;
+            if (this.ticksWallSlid++ > WallJumpModConfig.stopWallSlideDelay) stopSlid = true;
             motionY = -0.1;
             this.spawnWallParticle(this.getWallPos());
         } else {
