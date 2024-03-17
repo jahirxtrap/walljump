@@ -114,7 +114,7 @@ public class WallJumpLogic {
         }
 
         if (pl.fallDistance > 2) {
-            pl.fallDistance = 0;
+            pl.resetFallDistance();
             PacketHandler.INSTANCE.send(new MessageFallDistance((float) (motionY * motionY * 8)), Minecraft.getInstance().getConnection().getConnection());
         }
 

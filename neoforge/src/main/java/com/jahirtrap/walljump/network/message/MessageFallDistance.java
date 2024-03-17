@@ -1,29 +1,34 @@
 package com.jahirtrap.walljump.network.message;
 
+import com.jahirtrap.walljump.WallJumpMod;
 import net.minecraft.network.FriendlyByteBuf;
-import net.neoforged.neoforge.network.NetworkEvent;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-public class MessageFallDistance implements IMessage<MessageFallDistance> {
-    private float fallDistance;
-
-    public MessageFallDistance() {
-    }
+public class MessageFallDistance implements CustomPacketPayload {
+    public static final ResourceLocation ID = new ResourceLocation(WallJumpMod.MODID, "message_fall_distance");
+    private final float fallDistance;
 
     public MessageFallDistance(float fallDistance) {
         this.fallDistance = fallDistance;
     }
 
-    public MessageFallDistance decode(FriendlyByteBuf buffer) {
-        return new MessageFallDistance(buffer.readFloat());
+    public MessageFallDistance(FriendlyByteBuf buffer) {
+        fallDistance = buffer.readFloat();
     }
 
-    public void encode(MessageFallDistance message, FriendlyByteBuf buffer) {
-        buffer.writeFloat(message.fallDistance);
+    @Override
+    public void write(FriendlyByteBuf buffer) {
+        buffer.writeFloat(fallDistance);
     }
 
-    public void handle(MessageFallDistance message, NetworkEvent.Context context) {
-        context.enqueueWork(() ->
-                context.getSender().fallDistance = message.fallDistance);
-        context.setPacketHandled(true);
+    @Override
+    public ResourceLocation id() {
+        return ID;
+    }
+
+    public void handle(PlayPayloadContext context) {
+        context.player().ifPresent(player -> player.fallDistance = fallDistance);
     }
 }

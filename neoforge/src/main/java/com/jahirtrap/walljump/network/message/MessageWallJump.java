@@ -1,27 +1,36 @@
 package com.jahirtrap.walljump.network.message;
 
+import com.jahirtrap.walljump.WallJumpMod;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.neoforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-public class MessageWallJump implements IMessage<MessageWallJump> {
-    public void encode(MessageWallJump message, FriendlyByteBuf buffer) {
+public class MessageWallJump implements CustomPacketPayload {
+    public static final ResourceLocation ID = new ResourceLocation(WallJumpMod.MODID, "message_wall_jump");
+
+    public MessageWallJump() {
     }
 
-    public MessageWallJump decode(FriendlyByteBuf buffer) {
-        return new MessageWallJump();
+    public MessageWallJump(FriendlyByteBuf buffer) {
     }
 
-    public void handle(MessageWallJump message, NetworkEvent.Context context) {
-        context.enqueueWork(() ->
-        {
-            ServerPlayer player = context.getSender();
-            if (player != null) {
-                player.fallDistance = 0.0F;
-                player.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
-            }
-        });
-        context.setPacketHandled(true);
+    @Override
+    public void write(FriendlyByteBuf buffer) {
+    }
+
+    @Override
+    public ResourceLocation id() {
+        return ID;
+    }
+
+    public void handle(PlayPayloadContext context) {
+        var player = context.player().orElse(null);
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.resetFallDistance();
+            serverPlayer.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
+        }
     }
 }

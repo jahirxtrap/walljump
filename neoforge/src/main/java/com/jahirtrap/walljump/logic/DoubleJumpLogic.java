@@ -2,7 +2,6 @@ package com.jahirtrap.walljump.logic;
 
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
-import com.jahirtrap.walljump.network.PacketHandler;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -13,6 +12,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class DoubleJumpLogic {
                 jumpCount--;
 
                 pl.resetFallDistance();
-                PacketHandler.INSTANCE.sendToServer(new MessageFallDistance(pl.fallDistance));
+                PacketDistributor.SERVER.noArg().send(new MessageFallDistance(pl.fallDistance));
             }
 
             jumpKey = true;

@@ -2,7 +2,6 @@ package com.jahirtrap.walljump.logic;
 
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
-import com.jahirtrap.walljump.network.PacketHandler;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import com.jahirtrap.walljump.network.message.MessageWallJump;
 import com.jahirtrap.walljump.proxy.ClientProxy;
@@ -26,6 +25,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -87,7 +87,7 @@ public class WallJumpLogic {
 
             if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
                 pl.fallDistance = 0.0F;
-                PacketHandler.INSTANCE.sendToServer(new MessageWallJump());
+                PacketDistributor.SERVER.noArg().send(new MessageWallJump());
 
                 wallJump(pl, (float) WallJumpModConfig.wallJumpHeight);
                 staleWalls = new HashSet<>(walls);
@@ -113,8 +113,8 @@ public class WallJumpLogic {
         }
 
         if (pl.fallDistance > 2) {
-            pl.fallDistance = 0;
-            PacketHandler.INSTANCE.sendToServer(new MessageFallDistance((float) (motionY * motionY * 8)));
+            pl.resetFallDistance();
+            PacketDistributor.SERVER.noArg().send(new MessageFallDistance((float) (motionY * motionY * 8)));
         }
 
         pl.setDeltaMovement(0.0, motionY, 0.0);
