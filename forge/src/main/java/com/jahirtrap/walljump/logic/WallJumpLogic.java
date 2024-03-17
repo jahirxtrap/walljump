@@ -113,7 +113,7 @@ public class WallJumpLogic {
         }
 
         if (pl.fallDistance > 2) {
-            pl.fallDistance = 0;
+            pl.resetFallDistance();
             PacketHandler.INSTANCE.sendToServer(new MessageFallDistance((float) (motionY * motionY * 8)));
         }
 
