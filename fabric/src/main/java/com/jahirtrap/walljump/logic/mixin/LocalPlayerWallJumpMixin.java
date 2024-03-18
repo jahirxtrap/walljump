@@ -111,7 +111,7 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
             this.ticksWallClinged = 0;
 
             if ((this.input.forwardImpulse != 0 || this.input.leftImpulse != 0) && !this.onGround && !this.walls.isEmpty()) {
-                this.fallDistance = 0.0F;
+                this.resetFallDistance();
                 var passedData = new FriendlyByteBuf(Unpooled.buffer());
                 passedData.writeBoolean(true);
                 ClientPlayNetworking.send(WallJumpMod.WALL_JUMP_PACKET_ID, passedData);

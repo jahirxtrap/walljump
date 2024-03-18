@@ -20,7 +20,7 @@ public class MessageWallJump implements IMessage<MessageWallJump> {
         {
             ServerPlayer player = supplier.get().getSender();
             if (player != null) {
-                player.fallDistance = 0.0F;
+                player.resetFallDistance();
                 player.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
             }
         });
