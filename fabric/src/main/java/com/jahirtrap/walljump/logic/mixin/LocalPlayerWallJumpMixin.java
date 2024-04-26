@@ -141,7 +141,7 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
         }
 
         if (this.fallDistance > 2) {
-            this.fallDistance = 0;
+            this.resetFallDistance();
             var passedData = new FriendlyByteBuf(Unpooled.buffer());
             passedData.writeFloat((float) (motionY * motionY * 8));
             ClientPlayNetworking.send(WallJumpMod.FALL_DISTANCE_PACKET_ID, passedData);
