@@ -34,7 +34,6 @@
 		"java": ">=17",
 		"fabric": "*"
 	},
-	"accessWidener" : "${mod_id}.aw",
 	"jars": [
 		{"file": "META-INF/jars/configlibtxf-${configlibtxf_version}-fabric.jar"},
 		{"file": "META-INF/jars/keybindfixtxf-${keybindfixtxf_version}.jar"}
