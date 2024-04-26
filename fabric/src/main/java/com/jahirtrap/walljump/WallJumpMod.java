@@ -28,7 +28,10 @@ public class WallJumpMod implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(WALL_JUMP_PACKET_ID, (server, player, handler, buf, responseSender) -> {
             var didWallJump = buf.readBoolean();
             server.execute(() -> {
-                if (didWallJump) player.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
+                if (didWallJump) {
+                    player.resetFallDistance();
+                    player.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
+                }
             });
         });
     }
