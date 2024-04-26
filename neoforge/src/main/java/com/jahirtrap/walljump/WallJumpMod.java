@@ -13,7 +13,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.client.ConfigScreenHandler;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 @Mod(WallJumpMod.MODID)
 public class WallJumpMod {
@@ -23,8 +23,8 @@ public class WallJumpMod {
 
     public WallJumpMod(IEventBus bus) {
         TXFConfig.init(MODID, WallJumpModConfig.class);
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-                new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> TXFConfig.getScreen(parent, MODID)));
+        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () ->
+                (client, parent) -> TXFConfig.getScreen(parent, MODID));
 
         WallJumpEnchantments.ENCHANTMENTS.register(bus);
 

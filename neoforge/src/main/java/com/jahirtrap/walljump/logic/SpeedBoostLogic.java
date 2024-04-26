@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -52,9 +53,8 @@ public class SpeedBoostLogic {
     private static int getEquipmentBoost(LocalPlayer pl, EquipmentSlot slot) {
         ItemStack stack = pl.getItemBySlot(slot);
         if (!stack.isEmpty()) {
-            Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
-            if (enchantments.containsKey(WallJumpEnchantments.SPEED_BOOST.get()))
-                return enchantments.get(WallJumpEnchantments.SPEED_BOOST.get());
+            ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
+            return enchantments.getLevel(WallJumpEnchantments.SPEED_BOOST.get());
         }
 
         return 0;

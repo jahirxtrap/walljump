@@ -67,9 +67,8 @@ public abstract class LocalPlayerSpeedBoostMixin extends AbstractClientPlayer {
     private int getEquipmentBoost(EquipmentSlot slot) {
         var stack = this.getItemBySlot(slot);
         if (!stack.isEmpty()) {
-            var enchantments = EnchantmentHelper.getEnchantments(stack);
-            if (enchantments.containsKey(WallJumpEnchantments.SPEED_BOOST))
-                return enchantments.get(WallJumpEnchantments.SPEED_BOOST);
+            var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
+            return enchantments.getLevel(WallJumpEnchantments.SPEED_BOOST);
         }
 
         return 0;

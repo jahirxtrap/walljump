@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.event.TickEvent;
@@ -40,7 +41,7 @@ public class ClientProxy extends CommonProxy {
         event.register(KEY_WALL_JUMP);
     }
 
-    @Mod.EventBusSubscriber(modid = WallJumpMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = WallJumpMod.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
     private static class ClientHandler {
         @SubscribeEvent
         public static void onClientTick(TickEvent.ClientTickEvent event) {

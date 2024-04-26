@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "walljump:wall_jump",
+    "walljump:double_jump",
+    "walljump:speed_boost"
+  ]
+}

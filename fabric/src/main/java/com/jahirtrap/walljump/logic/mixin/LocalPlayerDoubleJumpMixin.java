@@ -1,17 +1,15 @@
 package com.jahirtrap.walljump.logic.mixin;
 
-import com.jahirtrap.walljump.WallJumpMod;
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import com.jahirtrap.walljump.util.LocalPlayerWallJump;
 import com.mojang.authlib.GameProfile;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.AABB;
@@ -57,9 +55,7 @@ public abstract class LocalPlayerDoubleJumpMixin extends AbstractClientPlayer im
                 this.jumpCount--;
 
                 this.resetFallDistance();
-                var passedData = new FriendlyByteBuf(Unpooled.buffer());
-                passedData.writeFloat(this.fallDistance);
-                ClientPlayNetworking.send(WallJumpMod.FALL_DISTANCE_PACKET_ID, passedData);
+                ClientPlayNetworking.send(new MessageFallDistance(this.fallDistance));
             }
 
             this.jumpKey = true;
@@ -74,9 +70,8 @@ public abstract class LocalPlayerDoubleJumpMixin extends AbstractClientPlayer im
 
         var stack = this.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
-            var enchantments = EnchantmentHelper.getEnchantments(stack);
-            if (enchantments.containsKey(WallJumpEnchantments.DOUBLE_JUMP))
-                jumpCount += enchantments.get(WallJumpEnchantments.DOUBLE_JUMP);
+            var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
+            jumpCount += enchantments.getLevel(WallJumpEnchantments.DOUBLE_JUMP);
         }
 
         return jumpCount;

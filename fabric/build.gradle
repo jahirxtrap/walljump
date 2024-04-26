@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'maven-publish'
-    id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
 }
 
 version = "${version}-fabric"
@@ -81,6 +81,7 @@ processResources {
     filesMatching(resourceTargets) {
         expand replaceProperties
     }
+    exclude '**/data/forge/**', '**/data/neoforge/**'
     from project(":common").sourceSets.main.resources
 }
 

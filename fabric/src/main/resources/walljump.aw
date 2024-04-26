@@ -1,3 +1,3 @@
 accessWidener	v1	named
-accessible method net/minecraft/world/entity/Entity causeFallDamage (FFLnet/minecraft/world/damagesource/DamageSource;)Z
 accessible field net/minecraft/world/entity/WalkAnimationState speedOld F
+accessible method net/minecraft/world/level/block/state/BlockBehaviour getSoundType (Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/level/block/SoundType;

@@ -1,11 +1,11 @@
 package com.jahirtrap.walljump.logic.mixin;
 
 import com.jahirtrap.walljump.WallJumpClient;
-import com.jahirtrap.walljump.WallJumpMod;
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.network.message.MessageFallDistance;
+import com.jahirtrap.walljump.network.message.MessageWallJump;
 import com.mojang.authlib.GameProfile;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -15,7 +15,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -112,9 +111,7 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
 
             if ((this.input.forwardImpulse != 0 || this.input.leftImpulse != 0) && !this.onGround() && !this.walls.isEmpty()) {
                 this.resetFallDistance();
-                var passedData = new FriendlyByteBuf(Unpooled.buffer());
-                passedData.writeBoolean(true);
-                ClientPlayNetworking.send(WallJumpMod.WALL_JUMP_PACKET_ID, passedData);
+                ClientPlayNetworking.send(new MessageWallJump(true));
 
                 this.wallJump((float) WallJumpModConfig.wallJumpHeight);
                 this.staleWalls = new HashSet<>(this.walls);
@@ -140,10 +137,8 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
         }
 
         if (this.fallDistance > 2) {
-            this.fallDistance = 0;
-            var passedData = new FriendlyByteBuf(Unpooled.buffer());
-            passedData.writeFloat((float) (motionY * motionY * 8));
-            ClientPlayNetworking.send(WallJumpMod.FALL_DISTANCE_PACKET_ID, passedData);
+            this.resetFallDistance();
+            ClientPlayNetworking.send(new MessageFallDistance((float) (motionY * motionY * 8)));
         }
 
         this.setDeltaMovement(0.0, motionY, 0.0);
@@ -154,8 +149,8 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
 
         var stack = this.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
-            var enchantments = EnchantmentHelper.getEnchantments(stack);
-            return enchantments.containsKey(WallJumpEnchantments.WALL_JUMP);
+            var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
+            return enchantments.getLevel(WallJumpEnchantments.WALL_JUMP) > 0;
         }
 
         return false;

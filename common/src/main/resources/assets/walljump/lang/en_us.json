@@ -8,5 +8,6 @@
   "enchantment.walljump.double_jump.desc": "Jump in mid-air to double jump",
   "enchantment.walljump.speed_boost.desc": "Boosts your speed while sprinting",
   "walljump.config.title": "Wall-Jump",
-  "walljump.config.enchantments": "Enchantments"
+  "walljump.config.category.general": "General",
+  "walljump.config.category.enchantments": "Enchantments"
 }
