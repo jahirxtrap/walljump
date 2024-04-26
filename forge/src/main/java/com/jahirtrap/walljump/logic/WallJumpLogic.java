@@ -86,7 +86,7 @@ public class WallJumpLogic {
             ticksWallClinged = 0;
 
             if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
-                pl.fallDistance = 0.0F;
+                pl.resetFallDistance();
                 PacketHandler.INSTANCE.sendToServer(new MessageWallJump());
 
                 wallJump(pl, (float) WallJumpModConfig.wallJumpHeight);
