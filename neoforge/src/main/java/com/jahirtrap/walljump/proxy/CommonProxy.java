@@ -5,7 +5,6 @@ import com.jahirtrap.walljump.init.WallJumpModConfig;
 import net.minecraft.sounds.SoundEvents;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 
 public class CommonProxy {
@@ -19,7 +18,6 @@ public class CommonProxy {
     private static class CommonHandler {
         @SubscribeEvent
         public static void onLivingFall(LivingFallEvent event) {
-
             float distance = event.getDistance();
             if (distance > 3 && distance <= WallJumpModConfig.minFallDistance) {
                 event.setDistance(3.0F);
