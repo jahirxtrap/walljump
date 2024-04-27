@@ -13,6 +13,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
@@ -39,8 +40,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-
+    public void onClientTick(ClientTickEvent event) {
         LocalPlayer pl = minecraft.player;
 
         if (event.phase != TickEvent.Phase.END || pl == null) return;
@@ -68,7 +68,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @SubscribeEvent
-    public void onJoinWorld(EntityJoinWorldEvent event) {
+    public void onEntityJoin(EntityJoinWorldEvent event) {
         if (event.getEntity() == minecraft.player && WallJumpModConfig.playFallSound) {
             FALLING_SOUND = new FallingSound(minecraft.player);
             minecraft.getSoundManager().play(FALLING_SOUND);
