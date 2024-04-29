@@ -1,6 +1,5 @@
 package com.jahirtrap.walljump.proxy;
 
-import com.jahirtrap.walljump.WallJumpMod;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import com.jahirtrap.walljump.logic.DoubleJumpLogic;
 import com.jahirtrap.walljump.logic.FallingSound;
@@ -14,11 +13,12 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.event.TickEvent;
-import net.neoforged.neoforge.event.TickEvent.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.lwjgl.glfw.GLFW;
+
+import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
 public class ClientProxy extends CommonProxy {
     private static final Minecraft minecraft = Minecraft.getInstance();
@@ -41,13 +41,13 @@ public class ClientProxy extends CommonProxy {
         event.register(KEY_WALL_JUMP);
     }
 
-    @EventBusSubscriber(modid = WallJumpMod.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
     private static class ClientHandler {
         @SubscribeEvent
-        public static void onClientTick(ClientTickEvent event) {
+        public static void onClientTick(ClientTickEvent.Post event) {
             LocalPlayer pl = minecraft.player;
 
-            if (event.phase != TickEvent.Phase.END || pl == null) return;
+            if (pl == null) return;
 
             WallJumpLogic.doWallJump(pl);
             DoubleJumpLogic.doDoubleJump(pl);
