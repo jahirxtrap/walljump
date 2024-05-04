@@ -18,8 +18,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +29,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
@@ -87,7 +86,7 @@ public class WallJumpLogic {
             ticksWallClinged = 0;
 
             if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
-                pl.fallDistance = 0.0F;
+                pl.resetFallDistance();
                 PacketHandler.INSTANCE.send(new MessageWallJump(), Minecraft.getInstance().getConnection().getConnection());
 
                 wallJump(pl, (float) WallJumpModConfig.wallJumpHeight);
@@ -126,8 +125,8 @@ public class WallJumpLogic {
 
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
-            Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
-            return enchantments.containsKey(WallJumpEnchantments.WALL_JUMP.get());
+            ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
+            return enchantments.getLevel(WallJumpEnchantments.WALL_JUMP.get()) > 0;
         }
 
         return false;

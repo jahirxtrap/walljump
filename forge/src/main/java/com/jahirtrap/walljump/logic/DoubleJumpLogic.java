@@ -8,14 +8,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class DoubleJumpLogic {
@@ -52,9 +50,8 @@ public class DoubleJumpLogic {
 
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
-            Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
-            if (enchantments.containsKey(WallJumpEnchantments.DOUBLE_JUMP.get()))
-                jumpCount += enchantments.get(WallJumpEnchantments.DOUBLE_JUMP.get());
+            ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
+            jumpCount += enchantments.getLevel(WallJumpEnchantments.DOUBLE_JUMP.get());
         }
 
         return jumpCount;
