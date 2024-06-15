@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
 public record MessageWallJump(boolean didWallJump) implements CustomPacketPayload {
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "message_wall_jump");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "message_wall_jump");
     public static final Type<MessageWallJump> TYPE = new Type<>(ID);
 
     public static final StreamCodec<FriendlyByteBuf, MessageWallJump> CODEC = StreamCodec.composite(

@@ -13,10 +13,13 @@ import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.phys.AABB;
@@ -64,6 +67,8 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
     }
 
     private void doWallJump() {
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableWallJump)
+            return;
         if (!this.canWallJump())
             return;
 
@@ -150,7 +155,8 @@ public abstract class LocalPlayerWallJumpMixin extends AbstractClientPlayer {
         var stack = this.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
-            return enchantments.getLevel(WallJumpEnchantments.WALL_JUMP) > 0;
+            Holder<Enchantment> wjHolder = this.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(WallJumpEnchantments.WALL_JUMP);
+            return enchantments.getLevel(wjHolder) > 0;
         }
 
         return false;

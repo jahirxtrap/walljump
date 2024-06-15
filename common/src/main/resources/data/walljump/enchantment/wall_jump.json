@@ -1,0 +1,20 @@
+{
+  "anvil_cost": 1,
+  "description": {
+    "translate": "enchantment.walljump.wall_jump"
+  },
+  "max_cost": {
+    "base": 60,
+    "per_level_above_first": 60
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 15,
+    "per_level_above_first": 15
+  },
+  "slots": [
+    "feet"
+  ],
+  "supported_items": "#walljump:enchantable/wall_jump",
+  "weight": 1
+}

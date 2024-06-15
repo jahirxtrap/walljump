@@ -1,18 +1,18 @@
 package com.jahirtrap.walljump.init;
 
-import com.jahirtrap.walljump.enchantment.DoubleJumpEnchantment;
-import com.jahirtrap.walljump.enchantment.SpeedBoostEnchantment;
-import com.jahirtrap.walljump.enchantment.WallJumpEnchantment;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
 public class WallJumpEnchantments {
-    public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(Registries.ENCHANTMENT, MODID);
-    public static final RegistryObject<Enchantment> WALL_JUMP = ENCHANTMENTS.register("wall_jump", WallJumpEnchantment::new);
-    public static final RegistryObject<Enchantment> DOUBLE_JUMP = ENCHANTMENTS.register("double_jump", DoubleJumpEnchantment::new);
-    public static final RegistryObject<Enchantment> SPEED_BOOST = ENCHANTMENTS.register("speed_boost", SpeedBoostEnchantment::new);
+    public static final ResourceKey<Enchantment> WALL_JUMP = register("wall_jump");
+    public static final ResourceKey<Enchantment> DOUBLE_JUMP = register("double_jump");
+    public static final ResourceKey<Enchantment> SPEED_BOOST = register("speed_boost");
+
+    public static ResourceKey<Enchantment> register(String name) {
+        return ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(MODID, name));
+    }
 }

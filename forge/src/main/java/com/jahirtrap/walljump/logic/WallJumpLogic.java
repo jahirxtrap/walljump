@@ -10,14 +10,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.RenderShape;
@@ -44,6 +47,8 @@ public class WallJumpLogic {
     private static Set<Direction> staleWalls = new HashSet<>();
 
     public static void doWallJump(LocalPlayer pl) {
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableWallJump)
+            return;
         if (!WallJumpLogic.canWallJump(pl))
             return;
 
@@ -126,7 +131,8 @@ public class WallJumpLogic {
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
-            return enchantments.getLevel(WallJumpEnchantments.WALL_JUMP.get()) > 0;
+            Holder<Enchantment> wjHolder = pl.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(WallJumpEnchantments.WALL_JUMP);
+            return enchantments.getLevel(wjHolder) > 0;
         }
 
         return false;

@@ -11,7 +11,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
 public record MessageFallDistance(float fallDistance) implements CustomPacketPayload {
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "message_fall_distance");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "message_fall_distance");
     public static final Type<MessageFallDistance> TYPE = new Type<>(ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, MessageFallDistance> CODEC = StreamCodec.composite(

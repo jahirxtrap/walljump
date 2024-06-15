@@ -10,7 +10,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,6 +44,8 @@ public abstract class LocalPlayerDoubleJumpMixin extends AbstractClientPlayer im
     }
 
     private void doDoubleJump() {
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
+            return;
         var pos = this.position();
         var motion = this.getDeltaMovement();
         if (!WallJumpModConfig.onFallDoubleJump && motion.y < -0.80) return;
@@ -71,7 +76,8 @@ public abstract class LocalPlayerDoubleJumpMixin extends AbstractClientPlayer im
         var stack = this.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
-            jumpCount += enchantments.getLevel(WallJumpEnchantments.DOUBLE_JUMP);
+            Holder<Enchantment> djHolder = this.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(WallJumpEnchantments.DOUBLE_JUMP);
+            jumpCount += enchantments.getLevel(djHolder);
         }
 
         return jumpCount;

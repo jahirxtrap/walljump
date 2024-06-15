@@ -17,7 +17,7 @@ public final class PacketHandler {
 
     public static void init() {
         INSTANCE = ChannelBuilder
-                .named(new ResourceLocation(MODID, "network"))
+                .named(ResourceLocation.fromNamespaceAndPath(MODID, "network"))
                 .networkProtocolVersion(PROTOCOL_VERSION)
                 .clientAcceptedVersions(Channel.VersionTest.exact(PROTOCOL_VERSION))
                 .serverAcceptedVersions(Channel.VersionTest.exact(PROTOCOL_VERSION))

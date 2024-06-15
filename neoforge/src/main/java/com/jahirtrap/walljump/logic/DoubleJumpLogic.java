@@ -4,8 +4,11 @@ import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.AABB;
@@ -20,6 +23,8 @@ public class DoubleJumpLogic {
     private static boolean jumpKey = false;
 
     public static void doDoubleJump(LocalPlayer pl) {
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
+            return;
         Vec3 pos = pl.position();
         Vec3 motion = pl.getDeltaMovement();
         if (!WallJumpModConfig.onFallDoubleJump && motion.y < -0.80) return;
@@ -50,7 +55,8 @@ public class DoubleJumpLogic {
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
-            jumpCount += enchantments.getLevel(WallJumpEnchantments.DOUBLE_JUMP.get());
+            Holder<Enchantment> djHolder = pl.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(WallJumpEnchantments.DOUBLE_JUMP);
+            jumpCount += enchantments.getLevel(djHolder);
         }
 
         return jumpCount;

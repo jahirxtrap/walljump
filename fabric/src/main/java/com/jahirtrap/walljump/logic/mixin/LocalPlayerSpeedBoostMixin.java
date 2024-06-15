@@ -6,9 +6,12 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,6 +36,8 @@ public abstract class LocalPlayerSpeedBoostMixin extends AbstractClientPlayer {
     }
 
     private void doSpeedBoost() {
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableSpeedBoost)
+            return;
         var jumpBoostLevel = 0;
         var jumpBoostEffect = this.getEffect(MobEffects.JUMP);
         if (jumpBoostEffect != null) jumpBoostLevel = jumpBoostEffect.getAmplifier() + 1;
@@ -68,7 +73,8 @@ public abstract class LocalPlayerSpeedBoostMixin extends AbstractClientPlayer {
         var stack = this.getItemBySlot(slot);
         if (!stack.isEmpty()) {
             var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
-            return enchantments.getLevel(WallJumpEnchantments.SPEED_BOOST);
+            Holder<Enchantment> spHolder = this.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(WallJumpEnchantments.SPEED_BOOST);
+            return enchantments.getLevel(spHolder);
         }
 
         return 0;

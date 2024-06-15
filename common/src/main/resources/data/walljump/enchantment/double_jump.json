@@ -1,0 +1,21 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.walljump.double_jump"
+  },
+  "exclusive_set": "#walljump:exclusive_set/double_jump",
+  "max_cost": {
+    "base": 60,
+    "per_level_above_first": 60
+  },
+  "max_level": 2,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 20
+  },
+  "slots": [
+    "feet"
+  ],
+  "supported_items": "#walljump:enchantable/double_jump",
+  "weight": 2
+}
