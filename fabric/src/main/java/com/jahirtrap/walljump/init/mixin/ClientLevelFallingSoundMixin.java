@@ -1,4 +1,4 @@
-package com.jahirtrap.walljump.logic.mixin;
+package com.jahirtrap.walljump.init.mixin;
 
 import com.jahirtrap.walljump.WallJumpClient;
 import com.jahirtrap.walljump.logic.FallingSound;

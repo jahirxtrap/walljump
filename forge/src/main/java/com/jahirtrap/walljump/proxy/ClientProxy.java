@@ -1,15 +1,10 @@
 package com.jahirtrap.walljump.proxy;
 
 import com.jahirtrap.walljump.init.WallJumpModConfig;
-import com.jahirtrap.walljump.logic.DoubleJumpLogic;
-import com.jahirtrap.walljump.logic.FallingSound;
-import com.jahirtrap.walljump.logic.SpeedBoostLogic;
-import com.jahirtrap.walljump.logic.WallJumpLogic;
+import com.jahirtrap.walljump.logic.*;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -29,10 +24,6 @@ public class ClientProxy extends CommonProxy {
 
     private static FallingSound FALLING_SOUND;
 
-    public static boolean collidesWithBlock(Level level, AABB box) {
-        return !level.noCollision(box);
-    }
-
     @Override
     public void setupClient() {
         RegisterKeyMappingsEvent event = new RegisterKeyMappingsEvent(minecraft.options);
@@ -49,23 +40,7 @@ public class ClientProxy extends CommonProxy {
         WallJumpLogic.doWallJump(pl);
         DoubleJumpLogic.doDoubleJump(pl);
         SpeedBoostLogic.doSpeedBoost(pl);
-
-        if (pl.horizontalCollision && WallJumpModConfig.stepAssist && pl.getDeltaMovement().y > -0.2 && pl.getDeltaMovement().y < 0.01) {
-            if (!ClientProxy.collidesWithBlock(pl.level, pl.getBoundingBox().inflate(0.01, -pl.maxUpStep() + 0.02, 0.01))) {
-                pl.setOnGround(true);
-            }
-        }
-
-        if (pl.isSprinting() && pl.getDeltaMovement().length() > 0.08)
-            pl.horizontalCollision = false;
-
-        if (pl.fallDistance > 1.5 && !pl.isFallFlying()) {
-
-            if (WallJumpModConfig.playFallSound && (FALLING_SOUND == null || FALLING_SOUND.isStopped())) {
-                FALLING_SOUND = new FallingSound(pl);
-                minecraft.getSoundManager().play(FALLING_SOUND);
-            }
-        }
+        StepAssistLogic.doStepAssist(pl);
     }
 
     @SubscribeEvent
