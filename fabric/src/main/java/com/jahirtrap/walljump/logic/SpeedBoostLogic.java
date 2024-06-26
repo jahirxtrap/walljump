@@ -2,6 +2,8 @@ package com.jahirtrap.walljump.logic;
 
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
@@ -15,10 +17,8 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class SpeedBoostLogic {
     public static void doSpeedBoost(LocalPlayer pl) {
         if ((!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableSpeedBoost) && (WallJumpModConfig.sprintSpeedBoost == 0 && WallJumpModConfig.elytraSpeedBoost == 0))
