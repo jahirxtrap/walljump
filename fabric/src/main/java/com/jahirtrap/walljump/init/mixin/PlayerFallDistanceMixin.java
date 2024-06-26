@@ -1,4 +1,4 @@
-package com.jahirtrap.walljump.logic.mixin;
+package com.jahirtrap.walljump.init.mixin;
 
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import net.minecraft.sounds.SoundEvent;
@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(Player.class)
 public abstract class PlayerFallDistanceMixin {
+
     @Shadow
     public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
