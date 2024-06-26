@@ -33,7 +33,6 @@ loom {
     if (project(":common").file("src/main/resources/${mod_id}.aw").exists()) {
         accessWidenerPath.set(project(":common").file("src/main/resources/${mod_id}.aw"))
     }
-    accessWidenerPath = file("src/main/resources/${mod_id}.aw")
     mixin {
         defaultRefmapName.set("${mod_id}.refmap.json")
     }

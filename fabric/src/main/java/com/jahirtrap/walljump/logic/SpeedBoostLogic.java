@@ -2,6 +2,8 @@ package com.jahirtrap.walljump.logic;
 
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,12 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class SpeedBoostLogic {
     public static void doSpeedBoost(LocalPlayer pl) {
         if ((!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableSpeedBoost) && (WallJumpModConfig.sprintSpeedBoost == 0 && WallJumpModConfig.elytraSpeedBoost == 0))
@@ -58,8 +58,8 @@ public class SpeedBoostLogic {
         ItemStack stack = pl.getItemBySlot(slot);
         if (!stack.isEmpty()) {
             Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
-            if (enchantments.containsKey(WallJumpEnchantments.SPEED_BOOST.get()))
-                return enchantments.get(WallJumpEnchantments.SPEED_BOOST.get());
+            if (enchantments.containsKey(WallJumpEnchantments.SPEED_BOOST))
+                return enchantments.get(WallJumpEnchantments.SPEED_BOOST);
         }
 
         return 0;
