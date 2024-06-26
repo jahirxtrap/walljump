@@ -20,6 +20,8 @@ public class DoubleJumpLogic {
     private static boolean jumpKey = false;
 
     public static void doDoubleJump(LocalPlayer pl) {
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
+            return;
         Vec3 pos = pl.position();
         Vec3 motion = pl.getDeltaMovement();
         if (!WallJumpModConfig.onFallDoubleJump && motion.y < -0.80) return;

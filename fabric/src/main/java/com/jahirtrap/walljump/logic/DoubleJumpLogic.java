@@ -2,9 +2,10 @@ package com.jahirtrap.walljump.logic;
 
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
-import com.jahirtrap.walljump.network.PacketHandler;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
-import net.minecraft.client.Minecraft;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -12,10 +13,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class DoubleJumpLogic {
     private static int jumpCount = 0;
     private static boolean jumpKey = false;
@@ -37,7 +36,7 @@ public class DoubleJumpLogic {
                 jumpCount--;
 
                 pl.resetFallDistance();
-                PacketHandler.INSTANCE.send(new MessageFallDistance(pl.fallDistance), Minecraft.getInstance().getConnection().getConnection());
+                ClientPlayNetworking.send(new MessageFallDistance(pl.fallDistance));
             }
 
             jumpKey = true;
@@ -53,7 +52,7 @@ public class DoubleJumpLogic {
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
-            jumpCount += enchantments.getLevel(WallJumpEnchantments.DOUBLE_JUMP.get());
+            jumpCount += enchantments.getLevel(WallJumpEnchantments.DOUBLE_JUMP);
         }
 
         return jumpCount;

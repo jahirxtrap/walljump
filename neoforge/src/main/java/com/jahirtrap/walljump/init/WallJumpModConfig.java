@@ -42,4 +42,6 @@ public class WallJumpModConfig extends TXFConfig {
     public static boolean enableDoubleJump = true;
     @Entry(category = ENCHANTMENTS, name = "Enable Speed Boost Enchantment")
     public static boolean enableSpeedBoost = true;
+    @Entry(category = ENCHANTMENTS, name = "Speed Boost Enchantment Multiplier", min = 0.25, max = 1, precision = 4, isSlider = true)
+    public static double speedBoostMultiplier = 0.5;
 }
