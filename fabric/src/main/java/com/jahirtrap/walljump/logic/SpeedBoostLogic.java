@@ -2,6 +2,8 @@ package com.jahirtrap.walljump.logic;
 
 import com.jahirtrap.walljump.init.WallJumpEnchantments;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,12 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class SpeedBoostLogic {
     public static void doSpeedBoost(LocalPlayer pl) {
         if ((!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableSpeedBoost) && (WallJumpModConfig.sprintSpeedBoost == 0 && WallJumpModConfig.elytraSpeedBoost == 0))
@@ -36,7 +36,7 @@ public class SpeedBoostLogic {
                 if (pl.getXRot() < 30f)
                     pl.setDeltaMovement(motion.subtract(motion.scale(0.05)));
             } else if (Minecraft.getInstance().options.keySprint.isDown() && pl.input.hasForwardImpulse()) {
-                float elytraSpeedBoost = (float) WallJumpModConfig.elytraSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * (float) WallJumpModConfig.speedBoostMultiplier);
+                float elytraSpeedBoost = (float) (WallJumpModConfig.elytraSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * (float) WallJumpModConfig.speedBoostMultiplier));
                 Vec3 boost = new Vec3(look.x, look.y, look.z).normalize().scale(elytraSpeedBoost);
                 if (motion.length() <= boost.length())
                     pl.setDeltaMovement(motion.add(boost.scale(0.05)));
@@ -58,8 +58,8 @@ public class SpeedBoostLogic {
         ItemStack stack = pl.getItemBySlot(slot);
         if (!stack.isEmpty()) {
             Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
-            if (enchantments.containsKey(WallJumpEnchantments.SPEED_BOOST.get()))
-                return enchantments.get(WallJumpEnchantments.SPEED_BOOST.get());
+            if (enchantments.containsKey(WallJumpEnchantments.SPEED_BOOST))
+                return enchantments.get(WallJumpEnchantments.SPEED_BOOST);
         }
 
         return 0;

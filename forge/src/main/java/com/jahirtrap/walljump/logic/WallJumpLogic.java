@@ -20,6 +20,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -44,7 +45,13 @@ public class WallJumpLogic {
     private static Set<Direction> walls = new HashSet<>();
     private static Set<Direction> staleWalls = new HashSet<>();
 
+    private static boolean collidesWithBlock(Level level, AABB box) {
+        return !level.noCollision(box);
+    }
+
     public static void doWallJump(LocalPlayer pl) {
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableWallJump)
+            return;
         if (!WallJumpLogic.canWallJump(pl))
             return;
 
@@ -87,7 +94,7 @@ public class WallJumpLogic {
             ticksWallClinged = 0;
 
             if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
-                pl.fallDistance = 0.0F;
+                pl.resetFallDistance();
                 PacketHandler.INSTANCE.send(new MessageWallJump(), Minecraft.getInstance().getConnection().getConnection());
 
                 wallJump(pl, (float) WallJumpModConfig.wallJumpHeight);
@@ -137,7 +144,7 @@ public class WallJumpLogic {
         if (pl.onClimbable() || pl.getDeltaMovement().y > 0.1 || pl.getFoodData().getFoodLevel() < 1)
             return false;
 
-        if (ClientProxy.collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
+        if (collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
 
         if (WallJumpModConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
 
@@ -156,7 +163,8 @@ public class WallJumpLogic {
         WallJumpLogic.walls = new HashSet<>();
         for (AABB axis : axes) {
             direction = Direction.from2DDataValue(i++);
-            if (ClientProxy.collidesWithBlock(pl.level(), axis)) {
+
+            if (collidesWithBlock(pl.level(), axis)) {
                 walls.add(direction);
                 pl.horizontalCollision = true;
             }
@@ -180,8 +188,8 @@ public class WallJumpLogic {
         strafe = strafe * f;
         forward = forward * f;
 
-        float f1 = (float) (Math.sin(pl.getYRot() * 0.017453292F) * 0.45f);
-        float f2 = (float) (Math.cos(pl.getYRot() * 0.017453292F) * 0.45f);
+        float f1 = (float) (Math.sin(pl.getYRot() * 0.017453292F) * 0.45F);
+        float f2 = (float) (Math.cos(pl.getYRot() * 0.017453292F) * 0.45F);
 
         int jumpBoostLevel = 0;
         MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP);
@@ -213,8 +221,8 @@ public class WallJumpLogic {
             Vec3 pos = entity.position();
             Vec3i motion = getClingDirection().getNormal();
 
-            entity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(blockPos), pos.x, pos.y,
-                    pos.z, motion.getX() * -1.0D, -1.0D, motion.getZ() * -1.0D);
+            entity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(blockPos), pos.x, pos.y, pos.z,
+                    motion.getX() * -1.0D, -1.0D, motion.getZ() * -1.0D);
         }
     }
 }

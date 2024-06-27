@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'maven-publish'
-    id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
 }
 
 version = "${version}-fabric"
@@ -33,7 +33,6 @@ loom {
     if (project(":common").file("src/main/resources/${mod_id}.aw").exists()) {
         accessWidenerPath.set(project(":common").file("src/main/resources/${mod_id}.aw"))
     }
-    accessWidenerPath = file("src/main/resources/${mod_id}.aw")
     mixin {
         defaultRefmapName.set("${mod_id}.refmap.json")
     }

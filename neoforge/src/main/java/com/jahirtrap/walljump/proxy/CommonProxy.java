@@ -1,11 +1,12 @@
 package com.jahirtrap.walljump.proxy;
 
-import com.jahirtrap.walljump.WallJumpMod;
 import com.jahirtrap.walljump.init.WallJumpModConfig;
 import net.minecraft.sounds.SoundEvents;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+
+import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
 public class CommonProxy {
     public void setupCommon() {
@@ -14,11 +15,10 @@ public class CommonProxy {
     public void setupClient() {
     }
 
-    @Mod.EventBusSubscriber(modid = WallJumpMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     private static class CommonHandler {
         @SubscribeEvent
         public static void onLivingFall(LivingFallEvent event) {
-
             float distance = event.getDistance();
             if (distance > 3 && distance <= WallJumpModConfig.minFallDistance) {
                 event.setDistance(3.0F);

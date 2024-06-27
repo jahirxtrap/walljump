@@ -1,8 +1,6 @@
 package com.jahirtrap.walljump.enchantment;
 
-import com.jahirtrap.walljump.init.WallJumpModConfig;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.ProtectionEnchantment;
@@ -37,12 +35,5 @@ public class DoubleJumpEnchantment extends Enchantment {
         if (enchantment instanceof ProtectionEnchantment protection)
             return protection.type != ProtectionEnchantment.Type.FALL;
         return this != enchantment;
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
-            return false;
-        return stack.canApplyAtEnchantingTable(this);
     }
 }

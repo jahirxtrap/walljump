@@ -1,6 +1,5 @@
 package com.jahirtrap.walljump.network;
 
-import com.jahirtrap.walljump.WallJumpMod;
 import com.jahirtrap.walljump.network.message.IMessage;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import com.jahirtrap.walljump.network.message.MessageWallJump;
@@ -9,6 +8,8 @@ import net.minecraftforge.network.Channel;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.SimpleChannel;
 
+import static com.jahirtrap.walljump.WallJumpMod.MODID;
+
 public final class PacketHandler {
     public static final int PROTOCOL_VERSION = 1;
     public static SimpleChannel INSTANCE;
@@ -16,7 +17,7 @@ public final class PacketHandler {
 
     public static void init() {
         INSTANCE = ChannelBuilder
-                .named(new ResourceLocation(WallJumpMod.MODID, "network"))
+                .named(new ResourceLocation(MODID, "network"))
                 .networkProtocolVersion(PROTOCOL_VERSION)
                 .clientAcceptedVersions(Channel.VersionTest.exact(PROTOCOL_VERSION))
                 .serverAcceptedVersions(Channel.VersionTest.exact(PROTOCOL_VERSION))
