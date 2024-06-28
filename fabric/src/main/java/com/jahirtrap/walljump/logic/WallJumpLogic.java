@@ -50,8 +50,6 @@ public class WallJumpLogic {
     }
 
     public static void doWallJump(LocalPlayer pl) {
-        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableWallJump)
-            return;
         if (!WallJumpLogic.canWallJump(pl))
             return;
 
@@ -134,7 +132,8 @@ public class WallJumpLogic {
 
     private static boolean canWallJump(LocalPlayer pl) {
         if (WallJumpModConfig.useWallJump) return true;
-
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableWallJump)
+            return false;
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);

@@ -22,7 +22,7 @@ public class DoubleJumpLogic {
     private static boolean jumpKey = false;
 
     public static void doDoubleJump(LocalPlayer pl) {
-        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
+        if ((!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump) && !WallJumpModConfig.useDoubleJump)
             return;
         Vec3 pos = pl.position();
         Vec3 motion = pl.getDeltaMovement();
@@ -50,7 +50,8 @@ public class DoubleJumpLogic {
     private static int getMultiJumps(LocalPlayer pl) {
         int jumpCount = 0;
         if (WallJumpModConfig.useDoubleJump) jumpCount += 1;
-
+        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
+            return jumpCount;
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
