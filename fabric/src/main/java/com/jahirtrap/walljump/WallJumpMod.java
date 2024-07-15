@@ -17,7 +17,10 @@ public class WallJumpMod implements ModInitializer {
     public void onInitialize() {
         TXFConfig.init(MODID, WallJumpModConfig.class);
         WallJumpEnchantments.init();
+        initEvents();
+    }
 
+    public void initEvents() {
         ServerPlayNetworking.registerGlobalReceiver(FALL_DISTANCE_PACKET_ID, (server, player, handler, buf, responseSender) -> {
             var fallDistance = buf.readFloat();
             server.execute(() -> {
