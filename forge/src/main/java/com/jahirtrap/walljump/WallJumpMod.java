@@ -4,6 +4,7 @@ import com.jahirtrap.walljump.init.WallJumpModConfig;
 import com.jahirtrap.walljump.proxy.ClientProxy;
 import com.jahirtrap.walljump.proxy.CommonProxy;
 import com.jahirtrap.walljump.util.configlib.TXFConfig;
+import com.jahirtrap.walljump.util.configlib.TXFConfigClient;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -24,7 +25,7 @@ public class WallJumpMod {
 
         TXFConfig.init(MODID, WallJumpModConfig.class);
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-                new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> TXFConfig.getScreen(parent, MODID)));
+                new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> TXFConfigClient.getScreen(parent, MODID)));
 
         bus.addListener(this::onCommonSetup);
         bus.addListener(this::onClientSetup);
