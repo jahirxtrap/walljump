@@ -33,7 +33,7 @@ public class SpeedBoostLogic {
         Vec3 motion = pl.getDeltaMovement();
 
         if (pl.isFallFlying()) {
-            if (pl.isCrouching()) {
+            if (pl.isShiftKeyDown()) {
                 if (pl.getXRot() < 30f)
                     pl.setDeltaMovement(motion.subtract(motion.scale(0.05)));
             } else if (Minecraft.getInstance().options.keySprint.isDown() && pl.input.hasForwardImpulse()) {
