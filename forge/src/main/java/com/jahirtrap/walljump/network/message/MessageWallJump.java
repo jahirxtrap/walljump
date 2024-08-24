@@ -1,6 +1,6 @@
 package com.jahirtrap.walljump.network.message;
 
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.init.ModConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.network.CustomPayloadEvent;
@@ -19,7 +19,7 @@ public class MessageWallJump implements IMessage<MessageWallJump> {
             ServerPlayer player = context.getSender();
             if (player != null) {
                 player.resetFallDistance();
-                player.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
+                player.causeFoodExhaustion((float) ModConfig.exhaustionWallJump);
             }
         });
         context.setPacketHandled(true);

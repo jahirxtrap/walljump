@@ -1,14 +1,11 @@
 package com.jahirtrap.walljump;
 
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.configlib.TXFConfig;
+import com.jahirtrap.walljump.init.ModConfig;
 import com.jahirtrap.walljump.proxy.ClientProxy;
 import com.jahirtrap.walljump.proxy.CommonProxy;
-import com.jahirtrap.walljump.util.configlib.TXFConfig;
-import com.jahirtrap.walljump.util.configlib.TXFConfigClient;
-import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -23,10 +20,7 @@ public class WallJumpMod {
     public WallJumpMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        TXFConfig.init(MODID, WallJumpModConfig.class);
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-                new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> TXFConfigClient.getScreen(parent, MODID)));
-
+        TXFConfig.init(MODID, ModConfig.class);
         bus.addListener(this::onCommonSetup);
         bus.addListener(this::onClientSetup);
     }

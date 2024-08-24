@@ -1,7 +1,7 @@
 package com.jahirtrap.walljump.logic;
 
-import com.jahirtrap.walljump.init.WallJumpEnchantments;
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.init.ModConfig;
+import com.jahirtrap.walljump.init.ModEnchantments;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,11 +23,11 @@ public class DoubleJumpLogic {
     private static boolean jumpKey = false;
 
     public static void doDoubleJump(LocalPlayer pl) {
-        if ((!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump) && !WallJumpModConfig.useDoubleJump)
+        if ((!ModConfig.enableEnchantments || !ModConfig.enableDoubleJump) && !ModConfig.useDoubleJump)
             return;
         Vec3 pos = pl.position();
         Vec3 motion = pl.getDeltaMovement();
-        if (!WallJumpModConfig.onFallDoubleJump && motion.y < -0.80) return;
+        if (!ModConfig.onFallDoubleJump && motion.y < -0.80) return;
 
         AABB box = new AABB(pos.x, pos.y + (pl.getEyeHeight() * .8), pos.z, pos.x, pos.y + pl.getBbHeight(), pos.z);
 
@@ -50,14 +50,14 @@ public class DoubleJumpLogic {
 
     private static int getMultiJumps(LocalPlayer pl) {
         int jumpCount = 0;
-        if (WallJumpModConfig.useDoubleJump) jumpCount += 1;
-        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableDoubleJump)
+        if (ModConfig.useDoubleJump) jumpCount += 1;
+        if (!ModConfig.enableEnchantments || !ModConfig.enableDoubleJump)
             return jumpCount;
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
             try {
-                Holder<Enchantment> djHolder = pl.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(WallJumpEnchantments.DOUBLE_JUMP);
+                Holder<Enchantment> djHolder = pl.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ModEnchantments.DOUBLE_JUMP);
                 jumpCount += enchantments.getLevel(djHolder);
             } catch (Exception e) {
                 return jumpCount;

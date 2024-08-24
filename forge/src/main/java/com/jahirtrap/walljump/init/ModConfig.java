@@ -1,8 +1,8 @@
 package com.jahirtrap.walljump.init;
 
-import com.jahirtrap.walljump.util.configlib.TXFConfig;
+import com.jahirtrap.configlib.TXFConfig;
 
-public class WallJumpModConfig extends TXFConfig {
+public class ModConfig extends TXFConfig {
     public static final String GENERAL = "general", ENCHANTMENTS = "enchantments";
 
     @Entry(category = GENERAL, name = "Allow Re Clinging")
