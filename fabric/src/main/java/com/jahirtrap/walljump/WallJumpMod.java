@@ -1,8 +1,8 @@
 package com.jahirtrap.walljump;
 
 import com.jahirtrap.configlib.TXFConfig;
-import com.jahirtrap.walljump.init.WallJumpEnchantments;
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.init.ModConfig;
+import com.jahirtrap.walljump.init.ModEnchantments;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.resources.ResourceLocation;
@@ -15,8 +15,8 @@ public class WallJumpMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        TXFConfig.init(MODID, WallJumpModConfig.class);
-        WallJumpEnchantments.init();
+        TXFConfig.init(MODID, ModConfig.class);
+        ModEnchantments.init();
         initEvents();
     }
 
@@ -33,7 +33,7 @@ public class WallJumpMod implements ModInitializer {
             server.execute(() -> {
                 if (didWallJump) {
                     player.resetFallDistance();
-                    player.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
+                    player.causeFoodExhaustion((float) ModConfig.exhaustionWallJump);
                 }
             });
         });
