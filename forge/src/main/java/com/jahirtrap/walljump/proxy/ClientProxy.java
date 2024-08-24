@@ -1,6 +1,6 @@
 package com.jahirtrap.walljump.proxy;
 
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.init.ModConfig;
 import com.jahirtrap.walljump.logic.*;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -44,7 +44,7 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void onEntityJoin(EntityJoinWorldEvent event) {
-        if (event.getEntity() == minecraft.player && WallJumpModConfig.playFallSound) {
+        if (event.getEntity() == minecraft.player && ModConfig.playFallSound) {
             FALLING_SOUND = new FallingSound(minecraft.player);
             minecraft.getSoundManager().play(FALLING_SOUND);
         }

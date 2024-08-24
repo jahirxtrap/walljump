@@ -10,7 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
-public class WallJumpEnchantments {
+public class ModEnchantments {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, MODID);
     public static final RegistryObject<Enchantment> WALL_JUMP = ENCHANTMENTS.register("wall_jump", WallJumpEnchantment::new);
     public static final RegistryObject<Enchantment> DOUBLE_JUMP = ENCHANTMENTS.register("double_jump", DoubleJumpEnchantment::new);

@@ -2,7 +2,7 @@ package com.jahirtrap.walljump.init;
 
 import com.jahirtrap.configlib.TXFConfig;
 
-public class WallJumpModConfig extends TXFConfig {
+public class ModConfig extends TXFConfig {
     @Entry(name = "Allow Re Clinging")
     public static boolean allowReClinging = true;
     @Entry(name = "Auto Rotation")
