@@ -1,8 +1,8 @@
 package com.jahirtrap.walljump;
 
 import com.jahirtrap.configlib.TXFConfig;
-import com.jahirtrap.walljump.init.WallJumpEnchantments;
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.init.ModConfig;
+import com.jahirtrap.walljump.init.ModEnchantments;
 import com.jahirtrap.walljump.network.PayloadHandler;
 import net.fabricmc.api.ModInitializer;
 
@@ -12,8 +12,8 @@ public class WallJumpMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        TXFConfig.init(MODID, WallJumpModConfig.class);
-        WallJumpEnchantments.init();
+        TXFConfig.init(MODID, ModConfig.class);
+        ModEnchantments.init();
         PayloadHandler.init();
     }
 }

@@ -10,7 +10,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
-public class WallJumpEnchantments {
+public class ModEnchantments {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(Registries.ENCHANTMENT, MODID);
     public static final DeferredHolder<Enchantment, WallJumpEnchantment> WALL_JUMP = ENCHANTMENTS.register("wall_jump", WallJumpEnchantment::new);
     public static final DeferredHolder<Enchantment, DoubleJumpEnchantment> DOUBLE_JUMP = ENCHANTMENTS.register("double_jump", DoubleJumpEnchantment::new);

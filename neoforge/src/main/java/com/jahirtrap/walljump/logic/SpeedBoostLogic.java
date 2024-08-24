@@ -1,7 +1,7 @@
 package com.jahirtrap.walljump.logic;
 
-import com.jahirtrap.walljump.init.WallJumpEnchantments;
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.init.ModConfig;
+import com.jahirtrap.walljump.init.ModEnchantments;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,7 +18,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class SpeedBoostLogic {
     public static void doSpeedBoost(LocalPlayer pl) {
-        if ((!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableSpeedBoost) && (WallJumpModConfig.sprintSpeedBoost == 0 && WallJumpModConfig.elytraSpeedBoost == 0))
+        if ((!ModConfig.enableEnchantments || !ModConfig.enableSpeedBoost) && (ModConfig.sprintSpeedBoost == 0 && ModConfig.elytraSpeedBoost == 0))
             return;
         int jumpBoostLevel = 0;
         MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP);
@@ -34,7 +34,7 @@ public class SpeedBoostLogic {
                 if (pl.getXRot() < 30f)
                     pl.setDeltaMovement(motion.subtract(motion.scale(0.05)));
             } else if (Minecraft.getInstance().options.keySprint.isDown() && pl.input.hasForwardImpulse()) {
-                float elytraSpeedBoost = (float) (WallJumpModConfig.elytraSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * (float) WallJumpModConfig.speedBoostMultiplier));
+                float elytraSpeedBoost = (float) (ModConfig.elytraSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.CHEST) * (float) ModConfig.speedBoostMultiplier));
                 Vec3 boost = new Vec3(look.x, look.y, look.z).normalize().scale(elytraSpeedBoost);
                 if (motion.length() <= boost.length())
                     pl.setDeltaMovement(motion.add(boost.scale(0.05)));
@@ -42,7 +42,7 @@ public class SpeedBoostLogic {
                     pl.level().addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
             }
         } else if (pl.isSprinting()) {
-            float sprintSpeedBoost = (float) (WallJumpModConfig.sprintSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.FEET) * (WallJumpModConfig.speedBoostMultiplier / 2)));
+            float sprintSpeedBoost = (float) (ModConfig.sprintSpeedBoost + (getEquipmentBoost(pl, EquipmentSlot.FEET) * (ModConfig.speedBoostMultiplier / 2)));
             if (!pl.onGround()) sprintSpeedBoost /= 3.125F;
 
             Vec3 boost = new Vec3(look.x, 0.0, look.z).scale(sprintSpeedBoost * 0.125F);
@@ -51,12 +51,12 @@ public class SpeedBoostLogic {
     }
 
     private static int getEquipmentBoost(LocalPlayer pl, EquipmentSlot slot) {
-        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableSpeedBoost)
+        if (!ModConfig.enableEnchantments || !ModConfig.enableSpeedBoost)
             return 0;
         ItemStack stack = pl.getItemBySlot(slot);
         if (!stack.isEmpty()) {
             ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
-            return enchantments.getLevel(WallJumpEnchantments.SPEED_BOOST.get());
+            return enchantments.getLevel(ModEnchantments.SPEED_BOOST.get());
         }
 
         return 0;
