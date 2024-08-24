@@ -2,8 +2,8 @@ package com.jahirtrap.walljump.logic;
 
 import com.jahirtrap.walljump.WallJumpClient;
 import com.jahirtrap.walljump.WallJumpMod;
-import com.jahirtrap.walljump.init.WallJumpEnchantments;
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.init.ModConfig;
+import com.jahirtrap.walljump.init.ModEnchantments;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -72,7 +72,7 @@ public class WallJumpLogic {
 
         if (ticksWallClinged < 1) {
             if (ticksKeyDown > 0 && ticksKeyDown < 4 && !walls.isEmpty() && canWallCling(pl)) {
-                if (WallJumpModConfig.autoRotation) {
+                if (ModConfig.autoRotation) {
                     pl.setYRot(getClingDirection().getOpposite().toYRot());
                     pl.yRotO = pl.getYRot();
                 }
@@ -97,7 +97,7 @@ public class WallJumpLogic {
                 passedData.writeBoolean(true);
                 ClientPlayNetworking.send(WallJumpMod.WALL_JUMP_PACKET_ID, passedData);
 
-                wallJump(pl, (float) WallJumpModConfig.wallJumpHeight);
+                wallJump(pl, (float) ModConfig.wallJumpHeight);
                 staleWalls = new HashSet<>(walls);
             }
 
@@ -112,8 +112,8 @@ public class WallJumpLogic {
         } else if (motionY < -0.6) {
             motionY = motionY + 0.2;
             spawnWallParticle(pl, getWallPos(pl));
-        } else if (ticksWallClinged++ > WallJumpModConfig.wallSlideDelay) {
-            if (ticksWallSlid++ > WallJumpModConfig.stopWallSlideDelay) stopSlid = true;
+        } else if (ticksWallClinged++ > ModConfig.wallSlideDelay) {
+            if (ticksWallSlid++ > ModConfig.stopWallSlideDelay) stopSlid = true;
             motionY = -0.1;
             spawnWallParticle(pl, getWallPos(pl));
         } else {
@@ -131,13 +131,13 @@ public class WallJumpLogic {
     }
 
     private static boolean canWallJump(LocalPlayer pl) {
-        if (WallJumpModConfig.useWallJump) return true;
-        if (!WallJumpModConfig.enableEnchantments || !WallJumpModConfig.enableWallJump)
+        if (ModConfig.useWallJump) return true;
+        if (!ModConfig.enableEnchantments || !ModConfig.enableWallJump)
             return false;
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
             Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
-            return enchantments.containsKey(WallJumpEnchantments.WALL_JUMP);
+            return enchantments.containsKey(ModEnchantments.WALL_JUMP);
         }
 
         return false;
@@ -149,7 +149,7 @@ public class WallJumpLogic {
 
         if (collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
 
-        if (WallJumpModConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
+        if (ModConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
 
         return !staleWalls.containsAll(walls);
     }

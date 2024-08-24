@@ -1,7 +1,7 @@
 package com.jahirtrap.walljump.network.message;
 
 import com.jahirtrap.walljump.WallJumpMod;
-import com.jahirtrap.walljump.init.WallJumpModConfig;
+import com.jahirtrap.walljump.init.ModConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +30,7 @@ public class MessageWallJump implements CustomPacketPayload {
         var player = context.player().orElse(null);
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.resetFallDistance();
-            serverPlayer.causeFoodExhaustion((float) WallJumpModConfig.exhaustionWallJump);
+            serverPlayer.causeFoodExhaustion((float) ModConfig.exhaustionWallJump);
         }
     }
 }
