@@ -1,31 +1,25 @@
 package com.jahirtrap.walljump.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class MessageFallDistance implements IMessage<MessageFallDistance> {
-    private float fallDistance;
-
-    public MessageFallDistance() {
-    }
-
-    public MessageFallDistance(float fallDistance) {
-        this.fallDistance = fallDistance;
-    }
-
-    public MessageFallDistance decode(FriendlyByteBuf buffer) {
-        return new MessageFallDistance(buffer.readFloat());
-    }
-
-    public void encode(MessageFallDistance message, FriendlyByteBuf buffer) {
+public record MessageFallDistance(float fallDistance) {
+    public static void encode(MessageFallDistance message, FriendlyByteBuf buffer) {
         buffer.writeFloat(message.fallDistance);
     }
 
-    public void handle(MessageFallDistance message, Supplier<NetworkEvent.Context> supplier) {
-        supplier.get().enqueueWork(() ->
-                supplier.get().getSender().fallDistance = message.fallDistance);
+    public static MessageFallDistance decode(FriendlyByteBuf buffer) {
+        return new MessageFallDistance(buffer.readFloat());
+    }
+
+    public static void handle(MessageFallDistance message, Supplier<NetworkEvent.Context> supplier) {
+        supplier.get().enqueueWork(() -> {
+            ServerPlayer player = supplier.get().getSender();
+            if (player != null) player.fallDistance = message.fallDistance;
+        });
         supplier.get().setPacketHandled(true);
     }
 }
