@@ -1,6 +1,6 @@
 package com.jahirtrap.walljump.network.message;
 
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -14,14 +14,16 @@ public record MessageFallDistance(float fallDistance) implements CustomPacketPay
     public static final ResourceLocation ID = new ResourceLocation(MODID, "message_fall_distance");
     public static final Type<MessageFallDistance> TYPE = new Type<>(ID);
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, MessageFallDistance> CODEC = StreamCodec.composite(
+    public static final StreamCodec<FriendlyByteBuf, MessageFallDistance> CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT,
             MessageFallDistance::fallDistance,
             MessageFallDistance::new
     );
 
-    public void handle(IPayloadContext context) {
-        if (context.player() instanceof ServerPlayer player) player.fallDistance = fallDistance;
+    public static void handle(MessageFallDistance message, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (context.player() instanceof ServerPlayer player) player.fallDistance = message.fallDistance;
+        });
     }
 
     @Override

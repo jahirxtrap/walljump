@@ -3,6 +3,7 @@ package com.jahirtrap.walljump.logic;
 import com.jahirtrap.walljump.WallJumpClient;
 import com.jahirtrap.walljump.init.ModConfig;
 import com.jahirtrap.walljump.init.ModEnchantments;
+import com.jahirtrap.walljump.init.ServerConfig;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import com.jahirtrap.walljump.network.message.MessageWallJump;
 import net.fabricmc.api.EnvType;
@@ -37,6 +38,7 @@ public class WallJumpLogic {
     public static int ticksWallClinged;
     public static int ticksWallSlid;
     public static boolean stopSlid = false;
+    public static int wallJumpCount;
     private static int ticksKeyDown;
     private static double clingX, clingZ;
     private static double lastJumpY = Double.MAX_VALUE;
@@ -59,6 +61,7 @@ public class WallJumpLogic {
             clingZ = Double.NaN;
             lastJumpY = Double.MAX_VALUE;
             staleWalls.clear();
+            wallJumpCount = 0;
 
             return;
         }
@@ -90,10 +93,11 @@ public class WallJumpLogic {
             ticksWallClinged = 0;
 
             if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
+                if (wallJumpCount >= ServerConfig.maxWallJumps) return;
                 pl.resetFallDistance();
                 ClientPlayNetworking.send(new MessageWallJump(true));
 
-                wallJump(pl, (float) ModConfig.wallJumpHeight);
+                wallJump(pl, (float) ServerConfig.wallJumpHeight);
                 staleWalls = new HashSet<>(walls);
             }
 
@@ -108,8 +112,8 @@ public class WallJumpLogic {
         } else if (motionY < -0.6) {
             motionY = motionY + 0.2;
             spawnWallParticle(pl, getWallPos(pl));
-        } else if (ticksWallClinged++ > ModConfig.wallSlideDelay) {
-            if (ticksWallSlid++ > ModConfig.stopWallSlideDelay) stopSlid = true;
+        } else if (ticksWallClinged++ > ServerConfig.wallSlideDelay) {
+            if (ticksWallSlid++ > ServerConfig.stopWallSlideDelay) stopSlid = true;
             motionY = -0.1;
             spawnWallParticle(pl, getWallPos(pl));
         } else {
@@ -125,8 +129,8 @@ public class WallJumpLogic {
     }
 
     private static boolean canWallJump(LocalPlayer pl) {
-        if (ModConfig.useWallJump) return true;
-        if (!ModConfig.enableEnchantments || !ModConfig.enableWallJump)
+        if (ServerConfig.useWallJump) return true;
+        if (!ServerConfig.enableEnchantments || !ServerConfig.enableWallJump)
             return false;
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
@@ -138,13 +142,9 @@ public class WallJumpLogic {
     }
 
     private static boolean canWallCling(LocalPlayer pl) {
-        if (pl.onClimbable() || pl.getDeltaMovement().y > 0.1 || pl.getFoodData().getFoodLevel() < 1)
-            return false;
-
+        if (pl.onClimbable() || pl.getDeltaMovement().y > 0.1 || pl.getFoodData().getFoodLevel() < 1) return false;
         if (collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
-
-        if (ModConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
-
+        if (ServerConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
         return !staleWalls.containsAll(walls);
     }
 
@@ -198,6 +198,7 @@ public class WallJumpLogic {
         lastJumpY = pl.getY();
         playBreakSound(pl, getWallPos(pl));
         spawnWallParticle(pl, getWallPos(pl));
+        wallJumpCount++;
     }
 
     private static void playHitSound(Entity entity, BlockPos blockPos) {
