@@ -1,5 +1,6 @@
 package com.jahirtrap.walljump.network.message;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -18,8 +19,8 @@ public record MessageFallDistance(float fallDistance) implements CustomPacketPay
             MessageFallDistance::new
     );
 
-    public static void handle(MessageFallDistance message, ServerPayloadContext context) {
-        context.execute(() -> context.player().fallDistance = message.fallDistance);
+    public static void handle(MessageFallDistance message, ServerPlayNetworking.Context context) {
+        context.player().server.execute(() -> context.player().fallDistance = message.fallDistance);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.jahirtrap.walljump.network.message;
 
-import com.jahirtrap.walljump.init.ModConfig;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.jahirtrap.walljump.init.ServerConfig;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -15,17 +15,19 @@ public record MessageWallJump(boolean didWallJump) implements CustomPacketPayloa
     public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "message_wall_jump");
     public static final Type<MessageWallJump> TYPE = new Type<>(ID);
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, MessageWallJump> CODEC = StreamCodec.composite(
+    public static final StreamCodec<FriendlyByteBuf, MessageWallJump> CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL,
             MessageWallJump::didWallJump,
             MessageWallJump::new
     );
 
-    public void handle(IPayloadContext context) {
-        if (context.player() instanceof ServerPlayer player && didWallJump) {
-            player.resetFallDistance();
-            player.causeFoodExhaustion((float) ModConfig.exhaustionWallJump);
-        }
+    public static void handle(MessageWallJump message, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (context.player() instanceof ServerPlayer player && message.didWallJump) {
+                player.resetFallDistance();
+                player.causeFoodExhaustion((float) ServerConfig.exhaustionWallJump);
+            }
+        });
     }
 
     @Override

@@ -1,29 +1,34 @@
 package com.jahirtrap.walljump.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 
-public class MessageFallDistance implements IMessage<MessageFallDistance> {
-    private float fallDistance;
+import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
-    public MessageFallDistance() {
-    }
+public record MessageFallDistance(float fallDistance) implements CustomPacketPayload {
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "message_fall_distance");
+    public static final Type<MessageFallDistance> TYPE = new Type<>(ID);
 
-    public MessageFallDistance(float fallDistance) {
-        this.fallDistance = fallDistance;
-    }
+    public static final StreamCodec<FriendlyByteBuf, MessageFallDistance> CODEC = StreamCodec.composite(
+            ByteBufCodecs.FLOAT,
+            MessageFallDistance::fallDistance,
+            MessageFallDistance::new
+    );
 
-    public MessageFallDistance decode(FriendlyByteBuf buffer) {
-        return new MessageFallDistance(buffer.readFloat());
-    }
-
-    public void encode(MessageFallDistance message, FriendlyByteBuf buffer) {
-        buffer.writeFloat(message.fallDistance);
-    }
-
-    public void handle(MessageFallDistance message, CustomPayloadEvent.Context context) {
-        context.enqueueWork(() ->
-                context.getSender().fallDistance = message.fallDistance);
+    public static void handle(MessageFallDistance message, CustomPayloadEvent.Context context) {
+        context.enqueueWork(() -> {
+            if (context.getSender() instanceof ServerPlayer player) player.fallDistance = message.fallDistance;
+        });
         context.setPacketHandled(true);
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }
