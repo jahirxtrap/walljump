@@ -1,4 +1,1 @@
-- Updated dependencies
-- Removed falling sound (it wasn't working)
-- Server-client config sync (<a href="https://github.com/jahirxtrap/walljump/issues/4">Issue #4</a>)
-- maxWallJumps config option (<a href="https://github.com/jahirxtrap/walljump/issues/16">Issue #16</a>)
+- Updated config lib
