@@ -16,11 +16,11 @@ public abstract class LocalPlayerMixin {
 
     @Inject(method = "aiStep", at = @At("TAIL"))
     private void aiStep(CallbackInfo ci) {
-        LocalPlayer player = Minecraft.getInstance().player;
+        LocalPlayer pl = Minecraft.getInstance().player;
 
-        WallJumpLogic.doWallJump(player);
-        DoubleJumpLogic.doDoubleJump(player);
-        SpeedBoostLogic.doSpeedBoost(player);
-        StepAssistLogic.doStepAssist(player);
+        WallJumpLogic.doWallJump(pl);
+        DoubleJumpLogic.doDoubleJump(pl);
+        SpeedBoostLogic.doSpeedBoost(pl);
+        StepAssistLogic.doStepAssist(pl);
     }
 }
