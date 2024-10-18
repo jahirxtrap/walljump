@@ -13,8 +13,8 @@ public class WallJumpMod {
 
     public static final String MODID = "walljump";
 
-    public WallJumpMod() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    public WallJumpMod(FMLJavaModLoadingContext context) {
+        IEventBus bus = context.getModEventBus();
 
         TXFConfig.init(MODID, ModConfig.class);
         ModEnchantments.init(bus);
