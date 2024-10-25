@@ -139,7 +139,7 @@ public class WallJumpLogic {
         if (!stack.isEmpty()) {
             ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
             try {
-                Holder<Enchantment> wjHolder = pl.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ModEnchantments.WALL_JUMP);
+                Holder<Enchantment> wjHolder = pl.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.WALL_JUMP);
                 return enchantments.getLevel(wjHolder) > 0;
             } catch (Exception e) {
                 return false;
@@ -226,7 +226,7 @@ public class WallJumpLogic {
         BlockState state = entity.level().getBlockState(blockPos);
         if (state.getRenderShape() != RenderShape.INVISIBLE) {
             Vec3 pos = entity.position();
-            Vec3i motion = getClingDirection().getNormal();
+            Vec3i motion = getClingDirection().getUnitVec3i();
 
             entity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state), pos.x, pos.y, pos.z,
                     motion.getX() * -1.0D, -1.0D, motion.getZ() * -1.0D);

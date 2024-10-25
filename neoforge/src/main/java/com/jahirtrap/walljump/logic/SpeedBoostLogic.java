@@ -60,7 +60,7 @@ public class SpeedBoostLogic {
         if (!stack.isEmpty()) {
             ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
             try {
-                Holder<Enchantment> spHolder = pl.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ModEnchantments.SPEED_BOOST);
+                Holder<Enchantment> spHolder = pl.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.SPEED_BOOST);
                 return enchantments.getLevel(spHolder);
             } catch (Exception e) {
                 return 0;
