@@ -8,11 +8,11 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
 public class ModEnchantments {
-    public static final ResourceKey<Enchantment> WALL_JUMP = register("wall_jump");
-    public static final ResourceKey<Enchantment> DOUBLE_JUMP = register("double_jump");
-    public static final ResourceKey<Enchantment> SPEED_BOOST = register("speed_boost");
+    public static final ResourceKey<Enchantment> WALL_JUMP = create("wall_jump");
+    public static final ResourceKey<Enchantment> DOUBLE_JUMP = create("double_jump");
+    public static final ResourceKey<Enchantment> SPEED_BOOST = create("speed_boost");
 
-    public static ResourceKey<Enchantment> register(String name) {
+    public static ResourceKey<Enchantment> create(String name) {
         return ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(MODID, name));
     }
 }
