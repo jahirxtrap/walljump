@@ -33,7 +33,7 @@ public class DoubleJumpLogic {
 
         if (pl.onGround() || pl.level().containsAnyLiquid(box) || WallJumpLogic.ticksWallClinged > 0 || pl.isPassenger() || pl.getAbilities().mayfly) {
             jumpCount = getMultiJumps(pl);
-        } else if (pl.input.jumping) {
+        } else if (pl.input.keyPresses.jump()) {
             if (!jumpKey && jumpCount > 0 && motion.y < 0.333 && WallJumpLogic.ticksWallClinged < 1 && pl.getFoodData().getFoodLevel() > 0) {
                 pl.jumpFromGround();
                 jumpCount--;
@@ -57,7 +57,7 @@ public class DoubleJumpLogic {
         if (!stack.isEmpty()) {
             ItemEnchantments enchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
             try {
-                Holder<Enchantment> djHolder = pl.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ModEnchantments.DOUBLE_JUMP);
+                Holder<Enchantment> djHolder = pl.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.DOUBLE_JUMP);
                 jumpCount += enchantments.getLevel(djHolder);
             } catch (Exception e) {
                 return jumpCount;
