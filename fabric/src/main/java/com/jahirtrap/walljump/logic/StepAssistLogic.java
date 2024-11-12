@@ -15,7 +15,7 @@ public class StepAssistLogic {
 
     public static void doStepAssist(LocalPlayer pl) {
         if (pl.horizontalCollision && ServerConfig.stepAssist && pl.getDeltaMovement().y > -0.2 && pl.getDeltaMovement().y < 0.01) {
-            if (!collidesWithBlock(pl.level, pl.getBoundingBox().inflate(0.01, -pl.maxUpStep + 0.02, 0.01))) {
+            if (!collidesWithBlock(pl.getLevel(), pl.getBoundingBox().inflate(0.01, -pl.maxUpStep + 0.02, 0.01))) {
                 pl.setOnGround(true);
             }
         }
