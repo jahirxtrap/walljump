@@ -150,7 +150,7 @@ public class WallJumpLogic {
 
     private static boolean canWallCling(LocalPlayer pl) {
         if (pl.onClimbable() || pl.getDeltaMovement().y > 0.1 || pl.getFoodData().getFoodLevel() < 1) return false;
-        if (collidesWithBlock(pl.level, pl.getBoundingBox().move(0, -0.8, 0))) return false;
+        if (collidesWithBlock(pl.getLevel(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
         if (ServerConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
         return !staleWalls.containsAll(walls);
     }
@@ -168,7 +168,7 @@ public class WallJumpLogic {
         for (AABB axis : axes) {
             direction = Direction.from2DDataValue(i++);
 
-            if (collidesWithBlock(pl.level, axis)) {
+            if (collidesWithBlock(pl.getLevel(), axis)) {
                 walls.add(direction);
                 pl.horizontalCollision = true;
             }
@@ -181,7 +181,7 @@ public class WallJumpLogic {
 
     private static BlockPos getWallPos(LocalPlayer player) {
         BlockPos blockPos = player.getOnPos().relative(getClingDirection());
-        return player.level.getBlockState(blockPos).getMaterial().isSolid() ? blockPos : blockPos.relative(Direction.UP);
+        return player.getLevel().getBlockState(blockPos).getMaterial().isSolid() ? blockPos : blockPos.relative(Direction.UP);
     }
 
     private static void wallJump(LocalPlayer pl, float up) {
@@ -209,24 +209,24 @@ public class WallJumpLogic {
     }
 
     private static void playHitSound(Entity entity, BlockPos blockPos) {
-        BlockState state = entity.level.getBlockState(blockPos);
+        BlockState state = entity.getLevel().getBlockState(blockPos);
         SoundType soundtype = state.getBlock().getSoundType(state);
         entity.playSound(soundtype.getHitSound(), soundtype.getVolume() * 0.25F, soundtype.getPitch());
     }
 
     private static void playBreakSound(Entity entity, BlockPos blockPos) {
-        BlockState state = entity.level.getBlockState(blockPos);
+        BlockState state = entity.getLevel().getBlockState(blockPos);
         SoundType soundtype = state.getBlock().getSoundType(state);
         entity.playSound(soundtype.getFallSound(), soundtype.getVolume() * 0.5F, soundtype.getPitch());
     }
 
     private static void spawnWallParticle(Entity entity, BlockPos blockPos) {
-        BlockState state = entity.level.getBlockState(blockPos);
+        BlockState state = entity.getLevel().getBlockState(blockPos);
         if (state.getRenderShape() != RenderShape.INVISIBLE) {
             Vec3 pos = entity.position();
             Vec3i motion = getClingDirection().getNormal();
 
-            entity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state), pos.x, pos.y, pos.z,
+            entity.getLevel().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state), pos.x, pos.y, pos.z,
                     motion.getX() * -1.0D, -1.0D, motion.getZ() * -1.0D);
         }
     }

@@ -9,14 +9,20 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
 public class ModEnchantments {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(Registries.ENCHANTMENT, MODID);
 
-    public static final RegistryObject<Enchantment> WALL_JUMP = ENCHANTMENTS.register("wall_jump", WallJumpEnchantment::new);
-    public static final RegistryObject<Enchantment> DOUBLE_JUMP = ENCHANTMENTS.register("double_jump", DoubleJumpEnchantment::new);
-    public static final RegistryObject<Enchantment> SPEED_BOOST = ENCHANTMENTS.register("speed_boost", SpeedBoostEnchantment::new);
+    public static final RegistryObject<Enchantment> WALL_JUMP = register("wall_jump", WallJumpEnchantment::new, ServerConfig.enableWallJump);
+    public static final RegistryObject<Enchantment> DOUBLE_JUMP = register("double_jump", DoubleJumpEnchantment::new, ServerConfig.enableDoubleJump);
+    public static final RegistryObject<Enchantment> SPEED_BOOST = register("speed_boost", SpeedBoostEnchantment::new, ServerConfig.enableSpeedBoost);
+
+    public static RegistryObject<Enchantment> register(String name, Supplier<Enchantment> supplier, boolean enable) {
+        return (ServerConfig.enableEnchantments && enable) ? ENCHANTMENTS.register(name, supplier) : null;
+    }
 
     public static void init(IEventBus bus) {
         ENCHANTMENTS.register(bus);
