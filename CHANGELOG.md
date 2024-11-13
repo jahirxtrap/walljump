@@ -1,1 +1,1 @@
-- Some fixes
+- Changed enchantment registry logic (<a href="https://github.com/jahirxtrap/walljump/issues/25">Issue #25</a>)
