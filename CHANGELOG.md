@@ -1,1 +1,1 @@
-- Changed enchantment registry logic (<a href="https://github.com/jahirxtrap/walljump/issues/25">Issue #25</a>)
+- Reimplemented falling sound (<a href="https://github.com/jahirxtrap/walljump/issues/24">Issue #24</a>)

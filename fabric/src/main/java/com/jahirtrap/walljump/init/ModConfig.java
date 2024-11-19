@@ -31,6 +31,8 @@ public class ModConfig extends TXFConfig {
     public static int stopWallSlideDelay = 72000;
     @Entry(name = "Max Wall Jumps", min = 0, max = Integer.MAX_VALUE)
     public static int maxWallJumps = 72000;
+    @Entry(name = "Play Falling Sound")
+    public static boolean playFallingSound = true;
     @Comment(centered = true)
     public static Comment enchantments;
     @Entry(name = "Enable Enchantments")
