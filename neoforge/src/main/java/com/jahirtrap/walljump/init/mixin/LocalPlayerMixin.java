@@ -1,5 +1,6 @@
 package com.jahirtrap.walljump.init.mixin;
 
+import com.jahirtrap.walljump.WallJumpClient;
 import com.jahirtrap.walljump.logic.DoubleJumpLogic;
 import com.jahirtrap.walljump.logic.SpeedBoostLogic;
 import com.jahirtrap.walljump.logic.StepAssistLogic;
@@ -18,6 +19,7 @@ public abstract class LocalPlayerMixin {
     private void aiStep(CallbackInfo ci) {
         LocalPlayer pl = Minecraft.getInstance().player;
 
+        WallJumpClient.playFallingSound(pl);
         WallJumpLogic.doWallJump(pl);
         DoubleJumpLogic.doDoubleJump(pl);
         SpeedBoostLogic.doSpeedBoost(pl);
