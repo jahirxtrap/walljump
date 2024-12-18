@@ -1,1 +1,1 @@
-- Update to 1.21.4
+- Changed enchantment registry logic
