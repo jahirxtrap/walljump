@@ -32,4 +32,13 @@ public class ServerConfig {
         } catch (Exception ignored) {
         }
     }
+
+    public static void reset(String config) {
+        try {
+            Field serverField = ServerConfig.class.getDeclaredField(config);
+            Field modField = ModConfig.class.getDeclaredField(config);
+            serverField.set(null, modField.get(null));
+        } catch (Exception ignored) {
+        }
+    }
 }
