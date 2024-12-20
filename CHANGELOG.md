@@ -1,1 +1,1 @@
-- Changed enchantment registry logic
+- Fixed wall jump BlockParticles

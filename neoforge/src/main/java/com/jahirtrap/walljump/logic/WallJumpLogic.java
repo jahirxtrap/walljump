@@ -228,7 +228,7 @@ public class WallJumpLogic {
             Vec3 pos = entity.position();
             Vec3i motion = getClingDirection().getUnitVec3i();
 
-            entity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(blockPos), pos.x, pos.y, pos.z,
+            entity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state), pos.x, pos.y, pos.z,
                     motion.getX() * -1.0D, -1.0D, motion.getZ() * -1.0D);
         }
     }
