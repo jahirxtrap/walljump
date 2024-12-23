@@ -15,7 +15,7 @@ public class ModEnchantments {
     public static final Enchantment DOUBLE_JUMP = register("double_jump", new DoubleJumpEnchantment(), ServerConfig.enableDoubleJump);
     public static final Enchantment SPEED_BOOST = register("speed_boost", new SpeedBoostEnchantment(), ServerConfig.enableSpeedBoost);
 
-    public static Enchantment register(String name, Enchantment enchantment, boolean enable) {
+    private static Enchantment register(String name, Enchantment enchantment, boolean enable) {
         return (ServerConfig.enableEnchantments && enable) ? Registry.register(BuiltInRegistries.ENCHANTMENT, new ResourceLocation(MODID, name), enchantment) : null;
     }
 
