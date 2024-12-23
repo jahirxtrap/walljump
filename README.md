@@ -11,7 +11,7 @@ Wall jump, double jump, fence jump & more
 
 <strong>Double Jump:</strong> Optional mid-air jump
 
-<strong>Speed Boost:</strong> Boosts your speed while sprinting
+<strong>Speed Boost:</strong> Boosts your speed while sprinting or flying with elytras
 
 <strong>Steep Assist:</strong> Walk up steps even while airborne, also jump over fences
 
