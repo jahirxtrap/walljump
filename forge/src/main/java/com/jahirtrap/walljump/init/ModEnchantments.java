@@ -20,7 +20,7 @@ public class ModEnchantments {
     public static final RegistryObject<Enchantment> DOUBLE_JUMP = register("double_jump", DoubleJumpEnchantment::new, ServerConfig.enableDoubleJump);
     public static final RegistryObject<Enchantment> SPEED_BOOST = register("speed_boost", SpeedBoostEnchantment::new, ServerConfig.enableSpeedBoost);
 
-    public static RegistryObject<Enchantment> register(String name, Supplier<Enchantment> supplier, boolean enable) {
+    private static RegistryObject<Enchantment> register(String name, Supplier<Enchantment> supplier, boolean enable) {
         return (ServerConfig.enableEnchantments && enable) ? ENCHANTMENTS.register(name, supplier) : null;
     }
 
