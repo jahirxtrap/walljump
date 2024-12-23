@@ -12,7 +12,7 @@ public class ModEnchantments {
     public static final ResourceKey<Enchantment> DOUBLE_JUMP = create("double_jump");
     public static final ResourceKey<Enchantment> SPEED_BOOST = create("speed_boost");
 
-    public static ResourceKey<Enchantment> create(String name) {
+    private static ResourceKey<Enchantment> create(String name) {
         return (ServerConfig.enableEnchantments) ? ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(MODID, name)) : null;
     }
 }
