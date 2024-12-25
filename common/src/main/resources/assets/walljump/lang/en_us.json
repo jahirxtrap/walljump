@@ -11,5 +11,8 @@
   "pack.walljump.enchantments.description": "Enables Wall-Jump enchantments",
   "walljump.config.title": "Wall-Jump",
   "walljump.config.category.general": "General",
-  "walljump.config.category.enchantments": "Enchantments"
+  "walljump.config.category.enchantments": "Enchantments",
+  "walljump.config.enum.BlockListMode.DISABLED": "Disabled",
+  "walljump.config.enum.BlockListMode.BLACKLIST": "Blacklist",
+  "walljump.config.enum.BlockListMode.WHITELIST": "Whitelist"
 }
