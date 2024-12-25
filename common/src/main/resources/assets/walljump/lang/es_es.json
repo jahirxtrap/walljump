@@ -8,5 +8,8 @@
   "enchantment.walljump.double_jump.desc": "Salta en el aire para hacer un doble salto",
   "enchantment.walljump.speed_boost.desc": "Aumenta tu velocidad mientras corres",
   "walljump.config.title": "Wall-Jump",
-  "walljump.config.enchantments": "Enchantments"
+  "walljump.config.enchantments": "Enchantments",
+  "walljump.config.enum.BlockListMode.DISABLED": "Disabled",
+  "walljump.config.enum.BlockListMode.BLACKLIST": "Blacklist",
+  "walljump.config.enum.BlockListMode.WHITELIST": "Whitelist"
 }
