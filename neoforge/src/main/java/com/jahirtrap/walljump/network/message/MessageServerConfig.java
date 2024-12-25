@@ -1,5 +1,7 @@
 package com.jahirtrap.walljump.network.message;
 
+import com.google.common.collect.Lists;
+import com.jahirtrap.walljump.init.ModConfig.BlockListMode;
 import com.jahirtrap.walljump.init.ServerConfig;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
@@ -8,6 +10,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+
+import java.util.List;
 
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
@@ -37,11 +41,20 @@ public record MessageServerConfig(byte[] config) implements CustomPacketPayload 
         ServerConfig.wallSlideDelay = buffer.readInt();
         ServerConfig.stopWallSlideDelay = buffer.readInt();
         ServerConfig.maxWallJumps = buffer.readInt();
+        ServerConfig.blockList = readList(buffer);
+        ServerConfig.blockListMode = buffer.readEnum(BlockListMode.class);
         ServerConfig.enableEnchantments = buffer.readBoolean();
         ServerConfig.enableWallJump = buffer.readBoolean();
         ServerConfig.enableDoubleJump = buffer.readBoolean();
         ServerConfig.enableSpeedBoost = buffer.readBoolean();
         ServerConfig.speedBoostMultiplier = buffer.readDouble();
+    }
+
+    private static List<String> readList(FriendlyByteBuf buffer) {
+        int size = buffer.readInt();
+        List<String> list = Lists.newArrayListWithCapacity(size);
+        for (int i = 0; i < size; i++) list.add(buffer.readUtf());
+        return list;
     }
 
     @Override
