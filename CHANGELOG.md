@@ -1,1 +1,3 @@
-- Changed enchantment registry logic
+- Added Block Blacklist/Whitelist config options:
+  - `blockList`: A list of Block IDs, e.g. `["minecraft:stone", "randomisfits:anchor_stone"]`
+  - `blockListMode`: Defines how the list will behave. Can be `"DISABLED"`, `"BLACKLIST"` or `"WHITELIST"`
