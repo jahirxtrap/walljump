@@ -2,6 +2,7 @@ package com.jahirtrap.walljump.logic;
 
 import com.jahirtrap.walljump.WallJumpClient;
 import com.jahirtrap.walljump.init.ModConfig;
+import com.jahirtrap.walljump.init.ModConfig.BlockListMode;
 import com.jahirtrap.walljump.init.ModEnchantments;
 import com.jahirtrap.walljump.init.ServerConfig;
 import com.jahirtrap.walljump.network.PacketHandler;
@@ -13,6 +14,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -50,7 +52,7 @@ public class WallJumpLogic {
     }
 
     public static void doWallJump(LocalPlayer pl) {
-        if (!WallJumpLogic.canWallJump(pl))
+        if (!canWallJump(pl))
             return;
 
         if (pl.onGround() || pl.getAbilities().flying || !pl.level().getFluidState(pl.blockPosition()).isEmpty() || pl.isHandsBusy()) {
@@ -68,7 +70,7 @@ public class WallJumpLogic {
 
         if (stopSlid) return;
 
-        WallJumpLogic.updateWalls(pl);
+        updateWalls(pl);
         ticksKeyDown = WallJumpClient.KEY_WALL_JUMP.isDown() ? ticksKeyDown + 1 : 0;
 
         if (ticksWallClinged < 1) {
@@ -158,15 +160,32 @@ public class WallJumpLogic {
 
         int i = 0;
         Direction direction;
-        WallJumpLogic.walls = new HashSet<>();
+        walls = new HashSet<>();
         for (AABB axis : axes) {
             direction = Direction.from2DDataValue(i++);
 
             if (collidesWithBlock(pl.level(), axis)) {
-                walls.add(direction);
-                pl.horizontalCollision = true;
+                if (ServerConfig.blockListMode == BlockListMode.DISABLED || ServerConfig.blockList.isEmpty() || areBlocksAllowed(getBlockId(pl, pl.blockPosition().relative(direction)), getBlockId(pl, pl.blockPosition().above().relative(direction)))) {
+                    walls.add(direction);
+                    pl.horizontalCollision = true;
+                }
             }
         }
+    }
+
+    private static String getBlockId(LocalPlayer pl, BlockPos pos) {
+        BlockState state = pl.level().getBlockState(pos);
+        return (state.isSolid()) ? BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString() : null;
+    }
+
+    private static boolean areBlocksAllowed(String... blocks) {
+        for (String block : blocks)
+            if ((block != null) && switch (ServerConfig.blockListMode) {
+                case BLACKLIST -> !ServerConfig.blockList.contains(block);
+                case WHITELIST -> ServerConfig.blockList.contains(block);
+                default -> true;
+            }) return true;
+        return false;
     }
 
     private static Direction getClingDirection() {
