@@ -1,6 +1,9 @@
 package com.jahirtrap.walljump.init;
 
+import com.jahirtrap.walljump.init.ModConfig.BlockListMode;
+
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class ServerConfig {
     public static boolean allowReClinging = ModConfig.allowReClinging;
@@ -16,6 +19,8 @@ public class ServerConfig {
     public static int wallSlideDelay = ModConfig.wallSlideDelay;
     public static int stopWallSlideDelay = ModConfig.stopWallSlideDelay;
     public static int maxWallJumps = ModConfig.maxWallJumps;
+    public static List<String> blockList = ModConfig.blockList;
+    public static BlockListMode blockListMode = ModConfig.blockListMode;
     public static boolean enableEnchantments = ModConfig.enableEnchantments;
     public static boolean enableWallJump = ModConfig.enableWallJump;
     public static boolean enableDoubleJump = ModConfig.enableDoubleJump;

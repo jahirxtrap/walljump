@@ -10,9 +10,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.CommonListenerCookie;
 import net.minecraft.server.players.PlayerList;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(PlayerList.class)
 public abstract class PlayerListMixin {
@@ -34,6 +37,8 @@ public abstract class PlayerListMixin {
         buffer.writeInt(ModConfig.wallSlideDelay);
         buffer.writeInt(ModConfig.stopWallSlideDelay);
         buffer.writeInt(ModConfig.maxWallJumps);
+        writeList(buffer, ModConfig.blockList);
+        buffer.writeEnum(ModConfig.blockListMode);
         buffer.writeBoolean(ModConfig.enableEnchantments);
         buffer.writeBoolean(ModConfig.enableWallJump);
         buffer.writeBoolean(ModConfig.enableDoubleJump);
@@ -41,5 +46,13 @@ public abstract class PlayerListMixin {
         buffer.writeDouble(ModConfig.speedBoostMultiplier);
 
         PacketHandler.sendToPlayer(player, new MessageServerConfig(buffer.array()));
+    }
+
+    @Unique
+    private void writeList(FriendlyByteBuf buffer, List<String> list) {
+        buffer.writeInt(list.size());
+        for (String string : list) {
+            buffer.writeUtf(string);
+        }
     }
 }
