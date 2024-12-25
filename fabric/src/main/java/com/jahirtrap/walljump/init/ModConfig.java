@@ -1,6 +1,9 @@
 package com.jahirtrap.walljump.init;
 
+import com.google.common.collect.Lists;
 import com.jahirtrap.configlib.TXFConfig;
+
+import java.util.List;
 
 public class ModConfig extends TXFConfig {
     public static final String GENERAL = "general", ENCHANTMENTS = "enchantments";
@@ -35,6 +38,10 @@ public class ModConfig extends TXFConfig {
     public static int maxWallJumps = 72000;
     @Entry(category = GENERAL, name = "Play Falling Sound")
     public static boolean playFallingSound = true;
+    @Entry(category = GENERAL, name = "Block List")
+    public static List<String> blockList = Lists.newArrayList();
+    @Entry(category = GENERAL, name = "Block List Mode")
+    public static BlockListMode blockListMode = BlockListMode.BLACKLIST;
 
     @Entry(category = ENCHANTMENTS, name = "Enable Enchantments")
     public static boolean enableEnchantments = true;
@@ -46,4 +53,6 @@ public class ModConfig extends TXFConfig {
     public static boolean enableSpeedBoost = true;
     @Entry(category = ENCHANTMENTS, name = "Speed Boost Enchantment Multiplier", min = 0.25, max = 1, precision = 4, isSlider = true)
     public static double speedBoostMultiplier = 0.5;
+
+    public enum BlockListMode {DISABLED, BLACKLIST, WHITELIST}
 }
