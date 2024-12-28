@@ -38,20 +38,20 @@ public class ModConfig extends TXFConfig {
     public static int maxWallJumps = 72000;
     @Entry(category = GENERAL, name = "Play Falling Sound")
     public static boolean playFallingSound = true;
-    @Entry(category = GENERAL, name = "Block List")
+    @Entry(category = GENERAL, name = "Block List", idMode = 1)
     public static List<String> blockList = Lists.newArrayList();
     @Entry(category = GENERAL, name = "Block List Mode")
     public static BlockListMode blockListMode = BlockListMode.BLACKLIST;
 
-    @Entry(category = ENCHANTMENTS, name = "Enable Enchantments")
+    @Entry(category = ENCHANTMENTS, name = "Enable Enchantments", itemDisplay = "minecraft:enchanted_book")
     public static boolean enableEnchantments = true;
-    @Entry(category = ENCHANTMENTS, name = "Enable Wall Jump Enchantment")
+    @Entry(category = ENCHANTMENTS, name = "Enable Wall Jump Enchantment", itemDisplay = "minecraft:enchanted_book")
     public static boolean enableWallJump = true;
-    @Entry(category = ENCHANTMENTS, name = "Enable Double Jump Enchantment")
+    @Entry(category = ENCHANTMENTS, name = "Enable Double Jump Enchantment", itemDisplay = "minecraft:enchanted_book")
     public static boolean enableDoubleJump = true;
-    @Entry(category = ENCHANTMENTS, name = "Enable Speed Boost Enchantment")
+    @Entry(category = ENCHANTMENTS, name = "Enable Speed Boost Enchantment", itemDisplay = "minecraft:enchanted_book")
     public static boolean enableSpeedBoost = true;
-    @Entry(category = ENCHANTMENTS, name = "Speed Boost Enchantment Multiplier", min = 0.25, max = 1, precision = 4, isSlider = true)
+    @Entry(category = ENCHANTMENTS, name = "Speed Boost Enchantment Multiplier", min = 0.25, max = 1, precision = 4, isSlider = true, itemDisplay = "minecraft:enchanted_book")
     public static double speedBoostMultiplier = 0.5;
 
     public enum BlockListMode {DISABLED, BLACKLIST, WHITELIST}
