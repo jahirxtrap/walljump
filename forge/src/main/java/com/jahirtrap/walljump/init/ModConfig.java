@@ -36,21 +36,21 @@ public class ModConfig extends TXFConfig {
     public static int maxWallJumps = 72000;
     @Entry(name = "Play Falling Sound")
     public static boolean playFallingSound = true;
-    @Entry(name = "Block List")
+    @Entry(name = "Block List", idMode = 1)
     public static List<String> blockList = Lists.newArrayList();
     @Entry(name = "Block List Mode")
     public static BlockListMode blockListMode = BlockListMode.BLACKLIST;
     @Comment(centered = true)
     public static Comment enchantments;
-    @Entry(name = "Enable Enchantments")
+    @Entry(name = "Enable Enchantments", itemDisplay = "minecraft:enchanted_book")
     public static boolean enableEnchantments = true;
-    @Entry(name = "Enable Wall Jump Enchantment")
+    @Entry(name = "Enable Wall Jump Enchantment", itemDisplay = "minecraft:enchanted_book")
     public static boolean enableWallJump = true;
-    @Entry(name = "Enable Double Jump Enchantment")
+    @Entry(name = "Enable Double Jump Enchantment", itemDisplay = "minecraft:enchanted_book")
     public static boolean enableDoubleJump = true;
-    @Entry(name = "Enable Speed Boost Enchantment")
+    @Entry(name = "Enable Speed Boost Enchantment", itemDisplay = "minecraft:enchanted_book")
     public static boolean enableSpeedBoost = true;
-    @Entry(name = "Speed Boost Enchantment Multiplier", min = 0.25, max = 1, precision = 4, isSlider = true)
+    @Entry(name = "Speed Boost Enchantment Multiplier", min = 0.25, max = 1, precision = 4, isSlider = true, itemDisplay = "minecraft:enchanted_book")
     public static double speedBoostMultiplier = 0.5;
 
     public enum BlockListMode {DISABLED, BLACKLIST, WHITELIST}
