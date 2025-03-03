@@ -6,10 +6,5 @@
   "enchantment.walljump.speed_boost": "Speed Boost",
   "enchantment.walljump.wall_jump.desc": "Jump from wall to wall",
   "enchantment.walljump.double_jump.desc": "Jump in mid-air to double jump",
-  "enchantment.walljump.speed_boost.desc": "Boosts your speed while sprinting",
-  "walljump.config.title": "Wall-Jump",
-  "walljump.config.enchantments": "Enchantments",
-  "walljump.config.enum.BlockListMode.DISABLED": "Disabled",
-  "walljump.config.enum.BlockListMode.BLACKLIST": "Blacklist",
-  "walljump.config.enum.BlockListMode.WHITELIST": "Whitelist"
+  "enchantment.walljump.speed_boost.desc": "Boosts your speed while sprinting"
 }
