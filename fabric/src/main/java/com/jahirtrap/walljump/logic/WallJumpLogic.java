@@ -97,7 +97,7 @@ public class WallJumpLogic {
         if (!WallJumpClient.KEY_WALL_JUMP.isDown() || pl.onGround() || !pl.level().getFluidState(pl.blockPosition()).isEmpty() || walls.isEmpty() || pl.getFoodData().getFoodLevel() < 1) {
             ticksWallClinged = 0;
 
-            if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
+            if ((pl.input.getMoveVector().y != 0 || pl.input.getMoveVector().x != 0) && !pl.onGround() && !walls.isEmpty()) {
                 if (wallJumpCount >= ServerConfig.maxWallJumps) return;
                 pl.resetFallDistance();
                 ClientPlayNetworking.send(new MessageWallJump(true));
@@ -125,8 +125,10 @@ public class WallJumpLogic {
             motionY = 0.0;
         }
 
-        pl.resetFallDistance();
-        ClientPlayNetworking.send(new MessageFallDistance((float) (motionY * motionY * 8)));
+        if (pl.fallDistance > 2) {
+            pl.resetFallDistance();
+            ClientPlayNetworking.send(new MessageFallDistance((float) (motionY * motionY * 8)));
+        }
 
         pl.setDeltaMovement(0.0, motionY, 0.0);
     }
@@ -204,8 +206,8 @@ public class WallJumpLogic {
     }
 
     private static void wallJump(LocalPlayer pl, float up) {
-        float strafe = Math.signum(pl.input.leftImpulse) * up * up;
-        float forward = Math.signum(pl.input.forwardImpulse) * up * up;
+        float strafe = Math.signum(pl.input.getMoveVector().x) * up * up;
+        float forward = Math.signum(pl.input.getMoveVector().y) * up * up;
 
         float f = (float) (1.0F / Math.sqrt(strafe * strafe + up * up + forward * forward));
         strafe = strafe * f;
@@ -215,7 +217,7 @@ public class WallJumpLogic {
         float f2 = (float) (Math.cos(pl.getYRot() * 0.017453292F) * 0.45F);
 
         int jumpBoostLevel = 0;
-        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP);
+        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP_BOOST);
         if (jumpBoostEffect != null) jumpBoostLevel = jumpBoostEffect.getAmplifier() + 1;
 
         Vec3 motion = pl.getDeltaMovement();
