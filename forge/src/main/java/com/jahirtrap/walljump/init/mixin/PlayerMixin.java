@@ -15,8 +15,8 @@ public abstract class PlayerMixin {
     @Shadow
     public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
-    @ModifyArg(method = "causeFallDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;causeFallDamage(FFLnet/minecraft/world/damagesource/DamageSource;)Z"), index = 0)
-    private float causeFallDamage(float value) {
+    @ModifyArg(method = "causeFallDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;causeFallDamage(DFLnet/minecraft/world/damagesource/DamageSource;)Z"), index = 0)
+    private double causeFallDamage(double value) {
         if (value > 3 && value <= ServerConfig.minFallDistance) {
             playSound(SoundEvents.GENERIC_SMALL_FALL, 0.5f, 1f);
             return 3;

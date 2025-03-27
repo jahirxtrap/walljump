@@ -27,7 +27,7 @@ public class WallJumpClient {
     }
 
     public static void playFallingSound(LocalPlayer player) {
-        if (ModConfig.playFallingSound && player.getDeltaMovement().y < -0.5 && !player.isFallFlying() && (FALLING_SOUND == null || FALLING_SOUND.isStopped())) {
+        if (ModConfig.playFallingSound && player.fallDistance > 1.5 && !player.isFallFlying() && (FALLING_SOUND == null || FALLING_SOUND.isStopped())) {
             FALLING_SOUND = new FallingSoundInstance(player);
             Minecraft.getInstance().getSoundManager().play(FALLING_SOUND);
         }

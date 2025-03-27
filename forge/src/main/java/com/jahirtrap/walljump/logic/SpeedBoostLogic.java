@@ -24,7 +24,7 @@ public class SpeedBoostLogic {
         if ((!ServerConfig.enableEnchantments || !ServerConfig.enableSpeedBoost) && (ServerConfig.sprintSpeedBoost == 0 && ServerConfig.elytraSpeedBoost == 0))
             return;
         int jumpBoostLevel = 0;
-        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP);
+        MobEffectInstance jumpBoostEffect = pl.getEffect(MobEffects.JUMP_BOOST);
         if (jumpBoostEffect != null) jumpBoostLevel = jumpBoostEffect.getAmplifier() + 1;
         pl.flyDist = (float) (pl.getSpeed() * (pl.isSprinting() ? 1 : 1.3) / 5) * (jumpBoostLevel * 0.5F + 1);
 

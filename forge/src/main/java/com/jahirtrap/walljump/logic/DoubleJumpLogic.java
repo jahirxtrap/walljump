@@ -39,7 +39,7 @@ public class DoubleJumpLogic {
                 jumpCount--;
 
                 pl.resetFallDistance();
-                PacketHandler.sendToServer(new MessageFallDistance(pl.fallDistance));
+                PacketHandler.sendToServer(new MessageFallDistance((float) pl.fallDistance));
             }
 
             jumpKey = true;
