@@ -19,6 +19,7 @@ public class MessageServerConfig {
     public static void handle(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buffer, PacketSender sender) {
         ServerConfig.allowReClinging = buffer.readBoolean();
         ServerConfig.onFallDoubleJump = buffer.readBoolean();
+        ServerConfig.onFallWallCling = buffer.readBoolean();
         ServerConfig.exhaustionWallJump = buffer.readDouble();
         ServerConfig.minFallDistance = buffer.readDouble();
         ServerConfig.elytraSpeedBoost = buffer.readDouble();

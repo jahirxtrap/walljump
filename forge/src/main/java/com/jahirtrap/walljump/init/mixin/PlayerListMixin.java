@@ -25,6 +25,7 @@ public abstract class PlayerListMixin {
 
         buffer.writeBoolean(ModConfig.allowReClinging);
         buffer.writeBoolean(ModConfig.onFallDoubleJump);
+        buffer.writeBoolean(ModConfig.onFallWallCling);
         buffer.writeDouble(ModConfig.exhaustionWallJump);
         buffer.writeDouble(ModConfig.minFallDistance);
         buffer.writeDouble(ModConfig.elytraSpeedBoost);

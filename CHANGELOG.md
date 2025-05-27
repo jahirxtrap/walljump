@@ -1,1 +1,1 @@
-- Updated config lib
+- onFallWallCling config option ([Issue #27](https://github.com/jahirxtrap/walljump/issues/27))
