@@ -146,6 +146,7 @@ public class WallJumpLogic {
     private static boolean canWallCling(LocalPlayer pl) {
         if (pl.onClimbable() || pl.getDeltaMovement().y > 0.1 || pl.getFoodData().getFoodLevel() < 1) return false;
         if (collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
+        if (!ServerConfig.onFallWallCling && pl.getDeltaMovement().y < -0.8) return false;
         if (ServerConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
 
         return !staleWalls.containsAll(walls);
