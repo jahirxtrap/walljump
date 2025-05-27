@@ -30,6 +30,7 @@ public record MessageServerConfig(byte[] config) implements CustomPacketPayload 
 
         ServerConfig.allowReClinging = buffer.readBoolean();
         ServerConfig.onFallDoubleJump = buffer.readBoolean();
+        ServerConfig.onFallWallCling = buffer.readBoolean();
         ServerConfig.exhaustionWallJump = buffer.readDouble();
         ServerConfig.minFallDistance = buffer.readDouble();
         ServerConfig.elytraSpeedBoost = buffer.readDouble();

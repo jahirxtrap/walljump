@@ -8,6 +8,7 @@ import java.util.List;
 public class ServerConfig {
     public static boolean allowReClinging = ModConfig.allowReClinging;
     public static boolean onFallDoubleJump = ModConfig.onFallDoubleJump;
+    public static boolean onFallWallCling = ModConfig.onFallWallCling;
     public static double exhaustionWallJump = ModConfig.exhaustionWallJump;
     public static double minFallDistance = ModConfig.minFallDistance;
     public static double elytraSpeedBoost = ModConfig.elytraSpeedBoost;
