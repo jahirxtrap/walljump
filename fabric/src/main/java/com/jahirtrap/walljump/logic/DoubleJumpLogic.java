@@ -28,7 +28,7 @@ public class DoubleJumpLogic {
             return;
         Vec3 pos = pl.position();
         Vec3 motion = pl.getDeltaMovement();
-        if (!ServerConfig.onFallDoubleJump && motion.y < -0.80) return;
+        if (!ServerConfig.onFallDoubleJump && motion.y < -0.8) return;
 
         AABB box = new AABB(pos.x, pos.y + (pl.getEyeHeight() * .8), pos.z, pos.x, pos.y + pl.getBbHeight(), pos.z);
 
