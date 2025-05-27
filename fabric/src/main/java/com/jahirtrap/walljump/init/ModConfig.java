@@ -12,6 +12,8 @@ public class ModConfig extends TXFConfig {
     public static boolean autoRotation = false;
     @Entry(name = "On Fall Double Jump")
     public static boolean onFallDoubleJump = true;
+    @Entry(name = "On Fall Wall Cling")
+    public static boolean onFallWallCling = true;
     @Entry(name = "Exhaustion Wall Jump", min = 0.0, max = 5.0)
     public static double exhaustionWallJump = 0.8;
     @Entry(name = "Min Fall Distance", min = 3.0, max = 256)
