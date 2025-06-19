@@ -26,7 +26,7 @@ public class ModPacks {
     private static void enchantments(PackRepository repository) {
         if (ServerConfig.enableEnchantments) {
             Path path = ModList.get().getModFileById(MODID).getFile().findResource("packs/enchantments");
-            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.walljump.enchantments.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA), Optional.empty());
+            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.walljump.enchantments.description"), SharedConstants.getCurrentVersion().packVersion(PackType.SERVER_DATA), Optional.empty());
 
             if (path != null) {
                 RepositorySource source = (consumer) -> consumer.accept(new Pack(
