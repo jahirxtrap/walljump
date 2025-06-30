@@ -15,7 +15,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 @OnlyIn(Dist.CLIENT)
 public class DoubleJumpLogic {
@@ -39,7 +39,7 @@ public class DoubleJumpLogic {
                 jumpCount--;
 
                 pl.resetFallDistance();
-                PacketDistributor.sendToServer(new MessageFallDistance((float) pl.fallDistance));
+                ClientPacketDistributor.sendToServer(new MessageFallDistance((float) pl.fallDistance));
             }
 
             jumpKey = true;

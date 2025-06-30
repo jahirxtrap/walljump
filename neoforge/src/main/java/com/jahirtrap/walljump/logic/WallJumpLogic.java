@@ -32,7 +32,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -100,7 +100,7 @@ public class WallJumpLogic {
             if ((pl.input.getMoveVector().y != 0 || pl.input.getMoveVector().x != 0) && !pl.onGround() && !walls.isEmpty()) {
                 if (wallJumpCount >= ServerConfig.maxWallJumps) return;
                 pl.resetFallDistance();
-                PacketDistributor.sendToServer(new MessageWallJump(true));
+                ClientPacketDistributor.sendToServer(new MessageWallJump(true));
 
                 wallJump(pl, (float) ServerConfig.wallJumpHeight);
                 staleWalls = new HashSet<>(walls);
@@ -127,7 +127,7 @@ public class WallJumpLogic {
 
         if (pl.fallDistance > 2) {
             pl.resetFallDistance();
-            PacketDistributor.sendToServer(new MessageFallDistance((float) (motionY * motionY * 8)));
+            ClientPacketDistributor.sendToServer(new MessageFallDistance((float) (motionY * motionY * 8)));
         }
 
         pl.setDeltaMovement(0.0, motionY, 0.0);
