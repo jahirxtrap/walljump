@@ -22,7 +22,7 @@ public record MessageWallJump(boolean didWallJump) implements CustomPacketPayloa
     );
 
     public static void handle(MessageWallJump message, ServerPlayNetworking.Context context) {
-        context.player().getServer().execute(() -> {
+        context.server().execute(() -> {
             ServerPlayer player = context.player();
             if (message.didWallJump) {
                 player.resetFallDistance();

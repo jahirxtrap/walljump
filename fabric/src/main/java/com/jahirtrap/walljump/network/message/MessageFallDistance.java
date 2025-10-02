@@ -20,7 +20,7 @@ public record MessageFallDistance(float fallDistance) implements CustomPacketPay
     );
 
     public static void handle(MessageFallDistance message, ServerPlayNetworking.Context context) {
-        context.player().getServer().execute(() -> context.player().fallDistance = message.fallDistance);
+        context.server().execute(() -> context.player().fallDistance = message.fallDistance);
     }
 
     @Override

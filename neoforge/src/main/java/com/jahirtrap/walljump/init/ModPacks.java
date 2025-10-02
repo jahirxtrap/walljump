@@ -11,8 +11,11 @@ import net.minecraft.server.packs.repository.*;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.neoforged.fml.ModList;
 
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
@@ -25,8 +28,8 @@ public class ModPacks {
 
     private static void enchantments(PackRepository repository) {
         if (ServerConfig.enableEnchantments) {
-            Path path = ModList.get().getModFileById(MODID).getFile().findResource("packs/enchantments");
-            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.walljump.enchantments.description"), SharedConstants.getCurrentVersion().packVersion(PackType.SERVER_DATA), Optional.empty());
+            Path path = findResource("packs/enchantments");
+            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.walljump.enchantments.description"), SharedConstants.getCurrentVersion().packVersion(PackType.SERVER_DATA).minorRange());
 
             if (path != null) {
                 RepositorySource source = (consumer) -> consumer.accept(new Pack(
@@ -39,5 +42,20 @@ public class ModPacks {
                 repository.sources.add(source);
             }
         }
+    }
+
+    private static Path findResource(String resource) {
+        return ModList.get().getModFileById(MODID).getFile().getContents().findFile(resource + "/pack.png").map(uri -> {
+            try {
+                return Paths.get(uri);
+            } catch (Exception e) {
+                try {
+                    FileSystems.newFileSystem(uri, Map.of());
+                    return Paths.get(uri);
+                } catch (Exception ignored) {
+                }
+            }
+            return null;
+        }).map(Path::getParent).orElse(null);
     }
 }
