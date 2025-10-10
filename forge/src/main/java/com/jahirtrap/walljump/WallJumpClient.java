@@ -15,7 +15,7 @@ import org.lwjgl.glfw.GLFW;
 
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
-@Mod.EventBusSubscriber(modid = WallJumpMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = WallJumpMod.MODID, value = Dist.CLIENT)
 public class WallJumpClient {
     public static FallingSoundInstance FALLING_SOUND;
 
