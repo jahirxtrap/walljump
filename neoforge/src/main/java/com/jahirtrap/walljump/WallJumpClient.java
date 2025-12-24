@@ -6,7 +6,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -19,7 +19,7 @@ import static com.jahirtrap.walljump.WallJumpMod.MODID;
 public class WallJumpClient {
     public static FallingSoundInstance FALLING_SOUND;
 
-    public static Category KEY_CATEGORY_WALL_JUMP = Category.register(ResourceLocation.fromNamespaceAndPath(MODID, "wall_jump"));
+    public static Category KEY_CATEGORY_WALL_JUMP = Category.register(Identifier.fromNamespaceAndPath(MODID, "wall_jump"));
 
     public static KeyMapping KEY_WALL_JUMP = new KeyMapping(
             "key.walljump.walljump",
