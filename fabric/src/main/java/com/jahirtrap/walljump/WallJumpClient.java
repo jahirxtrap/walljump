@@ -6,7 +6,7 @@ import com.jahirtrap.walljump.sound.FallingSoundInstance;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
@@ -30,7 +30,7 @@ public class WallJumpClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        KeyBindingHelper.registerKeyBinding(KEY_WALL_JUMP);
+        KeyMappingHelper.registerKeyMapping(KEY_WALL_JUMP);
         PacketHandler.initClient();
     }
 
