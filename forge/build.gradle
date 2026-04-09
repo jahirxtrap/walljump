@@ -7,6 +7,7 @@ plugins {
 }
 
 version = "${version}-forge"
+jarJar.register()
 base.archivesName = mod_id
 
 repositories {
@@ -14,8 +15,6 @@ repositories {
     maven fg.forgeMaven
     maven fg.minecraftLibsMaven
 }
-
-jarJar.register()
 
 dependencies {
     implementation minecraft.dependency("net.minecraftforge:forge:${forge_version}")
