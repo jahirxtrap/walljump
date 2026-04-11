@@ -13,6 +13,6 @@ public class ModEnchantments {
     public static final ResourceKey<Enchantment> SPEED_BOOST = create("speed_boost");
 
     private static ResourceKey<Enchantment> create(String name) {
-        return (ServerConfig.enableEnchantments) ? ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(MODID, name)) : null;
+        return (ModConfig.enableEnchantments) ? ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(MODID, name)) : null;
     }
 }

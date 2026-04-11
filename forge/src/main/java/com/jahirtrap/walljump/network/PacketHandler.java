@@ -1,7 +1,6 @@
 package com.jahirtrap.walljump.network;
 
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
-import com.jahirtrap.walljump.network.message.MessageServerConfig;
 import com.jahirtrap.walljump.network.message.MessageWallJump;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,7 +24,6 @@ public final class PacketHandler {
     public static void init() {
         INSTANCE.messageBuilder(MessageFallDistance.class, nextId++).codec(MessageFallDistance.CODEC).consumerNetworkThread(MessageFallDistance::handle).add();
         INSTANCE.messageBuilder(MessageWallJump.class, nextId++).codec(MessageWallJump.CODEC).consumerNetworkThread(MessageWallJump::handle).add();
-        INSTANCE.messageBuilder(MessageServerConfig.class, nextId++).codec(MessageServerConfig.CODEC).consumerNetworkThread(MessageServerConfig::handle).add();
     }
 
     public static <T> void sendToServer(T message) {

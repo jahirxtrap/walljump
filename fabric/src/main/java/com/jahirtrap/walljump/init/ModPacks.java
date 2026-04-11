@@ -19,12 +19,11 @@ import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
 public class ModPacks {
     public static void init(PackRepository repository) {
-        ServerConfig.reset("enableEnchantments");
         enchantments(repository);
     }
 
     private static void enchantments(PackRepository repository) {
-        if (ServerConfig.enableEnchantments) {
+        if (ModConfig.enableEnchantments) {
             Path path = FabricLoader.getInstance().getModContainer(MODID).flatMap(container -> container.findPath("packs/enchantments")).orElse(null);
             PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.walljump.enchantments.description"), SharedConstants.getCurrentVersion().packVersion(PackType.SERVER_DATA).minorRange());
 

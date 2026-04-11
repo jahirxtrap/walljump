@@ -4,12 +4,10 @@
   "package": "com.jahirtrap.walljump.init.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerListMixin",
     "PlayerMixin",
     "ServerPacksSourceMixin"
   ],
   "client": [
-    "ClientLevelMixin",
     "LocalPlayerMixin"
   ],
   "injectors": {

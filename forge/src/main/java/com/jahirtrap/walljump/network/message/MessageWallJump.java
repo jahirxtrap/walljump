@@ -1,6 +1,6 @@
 package com.jahirtrap.walljump.network.message;
 
-import com.jahirtrap.walljump.init.ServerConfig;
+import com.jahirtrap.walljump.init.ModConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -25,7 +25,7 @@ public record MessageWallJump(boolean didWallJump) implements CustomPacketPayloa
         context.enqueueWork(() -> {
             if (context.getSender() instanceof ServerPlayer player && message.didWallJump) {
                 player.resetFallDistance();
-                player.causeFoodExhaustion((float) ServerConfig.exhaustionWallJump);
+                player.causeFoodExhaustion((float) ModConfig.exhaustionWallJump);
             }
         });
         context.setPacketHandled(true);
