@@ -35,8 +35,5 @@
 		"java": ">=17",
 		"fabric-api": "*"
 	},
-	"accessWidener" : "${mod_id}.aw",
-	"jars": [
-		{"file": "META-INF/jars/configlibtxf-${configlibtxf_version}-fabric.jar"}
-	]
+	"accessWidener" : "${mod_id}.aw"
 }
