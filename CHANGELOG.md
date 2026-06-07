@@ -1,1 +1,1 @@
-- onFallWallCling config option ([Issue #27](https://github.com/jahirxtrap/walljump/issues/27))
+- Fixed server join failing with "registry data" errors when enchantments are disabled in the config ([Issue #37](https://github.com/jahirxtrap/walljump/issues/37))
