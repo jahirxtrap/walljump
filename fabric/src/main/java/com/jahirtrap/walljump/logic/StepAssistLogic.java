@@ -1,6 +1,6 @@
 package com.jahirtrap.walljump.logic;
 
-import com.jahirtrap.walljump.init.ServerConfig;
+import com.jahirtrap.walljump.init.ModConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.player.LocalPlayer;
@@ -14,7 +14,7 @@ public class StepAssistLogic {
     }
 
     public static void doStepAssist(LocalPlayer pl) {
-        if (pl.horizontalCollision && ServerConfig.stepAssist && pl.getDeltaMovement().y > -0.2 && pl.getDeltaMovement().y < 0.01) {
+        if (pl.horizontalCollision && ModConfig.stepAssist && pl.getDeltaMovement().y > -0.2 && pl.getDeltaMovement().y < 0.01) {
             if (!collidesWithBlock(pl.level(), pl.getBoundingBox().inflate(0.01, -pl.maxUpStep() + 0.02, 0.01))) {
                 pl.setOnGround(true);
             }

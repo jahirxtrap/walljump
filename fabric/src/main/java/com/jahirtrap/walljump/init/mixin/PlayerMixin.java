@@ -1,6 +1,6 @@
 package com.jahirtrap.walljump.init.mixin;
 
-import com.jahirtrap.walljump.init.ServerConfig;
+import com.jahirtrap.walljump.init.ModConfig;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +17,7 @@ public abstract class PlayerMixin {
 
     @ModifyArg(method = "causeFallDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Avatar;causeFallDamage(DFLnet/minecraft/world/damagesource/DamageSource;)Z"), index = 0)
     private double causeFallDamage(double value) {
-        if (value > 3 && value <= ServerConfig.minFallDistance) {
+        if (value > 3 && value <= ModConfig.minFallDistance) {
             playSound(SoundEvents.GENERIC_SMALL_FALL, 0.5f, 1f);
             return 3;
         }
