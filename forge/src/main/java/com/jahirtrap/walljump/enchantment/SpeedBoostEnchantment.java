@@ -1,5 +1,6 @@
 package com.jahirtrap.walljump.enchantment;
 
+import com.jahirtrap.walljump.init.ServerConfig;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
@@ -34,5 +35,15 @@ public class SpeedBoostEnchantment extends Enchantment {
     @Override
     public boolean canEnchant(ItemStack stack) {
         return super.canEnchant(stack) || stack.getItem() instanceof ElytraItem;
+    }
+
+    @Override
+    public boolean isTradeable() {
+        return ServerConfig.enableEnchantments && ServerConfig.enableSpeedBoost;
+    }
+
+    @Override
+    public boolean isDiscoverable() {
+        return ServerConfig.enableEnchantments && ServerConfig.enableSpeedBoost;
     }
 }
