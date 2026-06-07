@@ -1,7 +1,6 @@
 package com.jahirtrap.walljump.network;
 
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
-import com.jahirtrap.walljump.network.message.MessageServerConfig;
 import com.jahirtrap.walljump.network.message.MessageWallJump;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +23,6 @@ public final class PacketHandler {
     public static void init() {
         INSTANCE.registerMessage(nextId++, MessageFallDistance.class, MessageFallDistance::encode, MessageFallDistance::decode, MessageFallDistance::handle);
         INSTANCE.registerMessage(nextId++, MessageWallJump.class, MessageWallJump::encode, MessageWallJump::decode, MessageWallJump::handle);
-        INSTANCE.registerMessage(nextId++, MessageServerConfig.class, MessageServerConfig::encode, MessageServerConfig::decode, MessageServerConfig::handle);
     }
 
     public static <T> void sendToServer(T message) {

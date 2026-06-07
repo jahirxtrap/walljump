@@ -4,7 +4,6 @@ import com.jahirtrap.walljump.WallJumpClient;
 import com.jahirtrap.walljump.init.ModConfig;
 import com.jahirtrap.walljump.init.ModConfig.BlockListMode;
 import com.jahirtrap.walljump.init.ModEnchantments;
-import com.jahirtrap.walljump.init.ServerConfig;
 import com.jahirtrap.walljump.network.message.MessageFallDistance;
 import com.jahirtrap.walljump.network.message.MessageWallJump;
 import io.netty.buffer.Unpooled;
@@ -98,13 +97,13 @@ public class WallJumpLogic {
             ticksWallClinged = 0;
 
             if ((pl.input.forwardImpulse != 0 || pl.input.leftImpulse != 0) && !pl.onGround() && !walls.isEmpty()) {
-                if (wallJumpCount >= ServerConfig.maxWallJumps) return;
+                if (wallJumpCount >= ModConfig.maxWallJumps) return;
                 pl.resetFallDistance();
                 FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
                 buffer.writeBoolean(true);
                 ClientPlayNetworking.send(MessageWallJump.ID, buffer);
 
-                wallJump(pl, (float) ServerConfig.wallJumpHeight);
+                wallJump(pl, (float) ModConfig.wallJumpHeight);
                 staleWalls = new HashSet<>(walls);
             }
 
@@ -119,8 +118,8 @@ public class WallJumpLogic {
         } else if (motionY < -0.6) {
             motionY = motionY + 0.2;
             spawnWallParticle(pl, getWallPos(pl));
-        } else if (ticksWallClinged++ > ServerConfig.wallSlideDelay) {
-            if (ticksWallSlid++ > ServerConfig.stopWallSlideDelay) stopSlid = true;
+        } else if (ticksWallClinged++ > ModConfig.wallSlideDelay) {
+            if (ticksWallSlid++ > ModConfig.stopWallSlideDelay) stopSlid = true;
             motionY = -0.1;
             spawnWallParticle(pl, getWallPos(pl));
         } else {
@@ -138,8 +137,8 @@ public class WallJumpLogic {
     }
 
     private static boolean canWallJump(LocalPlayer pl) {
-        if (ServerConfig.useWallJump) return true;
-        if (!ServerConfig.enableEnchantments || !ServerConfig.enableWallJump)
+        if (ModConfig.useWallJump) return true;
+        if (!ModConfig.enableEnchantments || !ModConfig.enableWallJump)
             return false;
         ItemStack stack = pl.getItemBySlot(EquipmentSlot.FEET);
         if (!stack.isEmpty()) {
@@ -153,8 +152,8 @@ public class WallJumpLogic {
     private static boolean canWallCling(LocalPlayer pl) {
         if (pl.onClimbable() || pl.getDeltaMovement().y > 0.1 || pl.getFoodData().getFoodLevel() < 1) return false;
         if (collidesWithBlock(pl.level(), pl.getBoundingBox().move(0, -0.8, 0))) return false;
-        if (!ServerConfig.onFallWallCling && pl.getDeltaMovement().y < -0.8) return false;
-        if (ServerConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
+        if (!ModConfig.onFallWallCling && pl.getDeltaMovement().y < -0.8) return false;
+        if (ModConfig.allowReClinging || pl.getY() < lastJumpY - 1) return true;
         return !staleWalls.containsAll(walls);
     }
 
@@ -172,7 +171,7 @@ public class WallJumpLogic {
             direction = Direction.from2DDataValue(i++);
 
             if (collidesWithBlock(pl.level(), axis)) {
-                if (ServerConfig.blockListMode == BlockListMode.DISABLED || ServerConfig.blockList.isEmpty() || areBlocksAllowed(getBlockId(pl, pl.blockPosition().relative(direction)), getBlockId(pl, pl.blockPosition().above().relative(direction)))) {
+                if (ModConfig.blockListMode == BlockListMode.DISABLED || ModConfig.blockList.isEmpty() || areBlocksAllowed(getBlockId(pl, pl.blockPosition().relative(direction)), getBlockId(pl, pl.blockPosition().above().relative(direction)))) {
                     walls.add(direction);
                     pl.horizontalCollision = true;
                 }
@@ -187,9 +186,9 @@ public class WallJumpLogic {
 
     private static boolean areBlocksAllowed(String... blocks) {
         for (String block : blocks)
-            if ((block != null) && switch (ServerConfig.blockListMode) {
-                case BLACKLIST -> !ServerConfig.blockList.contains(block);
-                case WHITELIST -> ServerConfig.blockList.contains(block);
+            if ((block != null) && switch (ModConfig.blockListMode) {
+                case BLACKLIST -> !ModConfig.blockList.contains(block);
+                case WHITELIST -> ModConfig.blockList.contains(block);
                 default -> true;
             }) return true;
         return false;

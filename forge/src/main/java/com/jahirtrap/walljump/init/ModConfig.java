@@ -8,52 +8,52 @@ import java.util.List;
 public class ModConfig extends TXFConfig {
     public static final String GENERAL = "general", ENCHANTMENTS = "enchantments";
 
-    @Entry(category = GENERAL, name = "Allow Re Clinging")
+    @Entry(category = GENERAL, name = "Allow Re Clinging", syncServer = true)
     public static boolean allowReClinging = true;
     @Entry(category = GENERAL, name = "Auto Rotation")
     public static boolean autoRotation = false;
-    @Entry(category = GENERAL, name = "On Fall Double Jump")
+    @Entry(category = GENERAL, name = "On Fall Double Jump", syncServer = true)
     public static boolean onFallDoubleJump = true;
-    @Entry(category = GENERAL, name = "On Fall Wall Cling")
+    @Entry(category = GENERAL, name = "On Fall Wall Cling", syncServer = true)
     public static boolean onFallWallCling = true;
-    @Entry(category = GENERAL, name = "Exhaustion Wall Jump", min = 0.0, max = 5.0)
+    @Entry(category = GENERAL, name = "Exhaustion Wall Jump", min = 0.0, max = 5.0, syncServer = true)
     public static double exhaustionWallJump = 0.8;
-    @Entry(category = GENERAL, name = "Min Fall Distance", min = 3.0, max = 256)
+    @Entry(category = GENERAL, name = "Min Fall Distance", min = 3.0, max = 256, syncServer = true)
     public static double minFallDistance = 3.0;
-    @Entry(category = GENERAL, name = "Elytra Speed Boost", min = 0.0, max = 5.0)
+    @Entry(category = GENERAL, name = "Elytra Speed Boost", min = 0.0, max = 5.0, syncServer = true)
     public static double elytraSpeedBoost = 0.0;
-    @Entry(category = GENERAL, name = "Sprint Speed Boost", min = 0.0, max = 5.0)
+    @Entry(category = GENERAL, name = "Sprint Speed Boost", min = 0.0, max = 5.0, syncServer = true)
     public static double sprintSpeedBoost = 0.0;
-    @Entry(category = GENERAL, name = "Step Assist")
+    @Entry(category = GENERAL, name = "Step Assist", syncServer = true)
     public static boolean stepAssist = true;
-    @Entry(category = GENERAL, name = "Use Double Jump")
+    @Entry(category = GENERAL, name = "Use Double Jump", syncServer = true)
     public static boolean useDoubleJump = false;
-    @Entry(category = GENERAL, name = "Use Wall Jump")
+    @Entry(category = GENERAL, name = "Use Wall Jump", syncServer = true)
     public static boolean useWallJump = true;
-    @Entry(category = GENERAL, name = "Wall Jump Height", min = 0.0, max = 1.0)
+    @Entry(category = GENERAL, name = "Wall Jump Height", min = 0.0, max = 1.0, syncServer = true)
     public static double wallJumpHeight = 0.55;
-    @Entry(category = GENERAL, name = "Wall Slide Delay", min = 0, max = Integer.MAX_VALUE)
+    @Entry(category = GENERAL, name = "Wall Slide Delay", min = 0, max = Integer.MAX_VALUE, syncServer = true)
     public static int wallSlideDelay = 15;
-    @Entry(category = GENERAL, name = "Stop Wall Slide Delay", min = 0, max = Integer.MAX_VALUE)
+    @Entry(category = GENERAL, name = "Stop Wall Slide Delay", min = 0, max = Integer.MAX_VALUE, syncServer = true)
     public static int stopWallSlideDelay = 72000;
-    @Entry(category = GENERAL, name = "Max Wall Jumps", min = 0, max = Integer.MAX_VALUE)
+    @Entry(category = GENERAL, name = "Max Wall Jumps", min = 0, max = Integer.MAX_VALUE, syncServer = true)
     public static int maxWallJumps = 72000;
     @Entry(category = GENERAL, name = "Play Falling Sound")
     public static boolean playFallingSound = true;
-    @Entry(category = GENERAL, name = "Block List", idMode = 1)
+    @Entry(category = GENERAL, name = "Block List", idMode = 1, syncServer = true)
     public static List<String> blockList = Lists.newArrayList();
-    @Entry(category = GENERAL, name = "Block List Mode")
+    @Entry(category = GENERAL, name = "Block List Mode", syncServer = true)
     public static BlockListMode blockListMode = BlockListMode.BLACKLIST;
 
-    @Entry(category = ENCHANTMENTS, name = "Enable Enchantments", itemDisplay = "minecraft:enchanted_book")
+    @Entry(category = ENCHANTMENTS, name = "Enable Enchantments", itemDisplay = "minecraft:enchanted_book", syncServer = true)
     public static boolean enableEnchantments = true;
-    @Entry(category = ENCHANTMENTS, name = "Enable Wall Jump Enchantment", itemDisplay = "minecraft:enchanted_book")
+    @Entry(category = ENCHANTMENTS, name = "Enable Wall Jump Enchantment", itemDisplay = "minecraft:enchanted_book", syncServer = true)
     public static boolean enableWallJump = true;
-    @Entry(category = ENCHANTMENTS, name = "Enable Double Jump Enchantment", itemDisplay = "minecraft:enchanted_book")
+    @Entry(category = ENCHANTMENTS, name = "Enable Double Jump Enchantment", itemDisplay = "minecraft:enchanted_book", syncServer = true)
     public static boolean enableDoubleJump = true;
-    @Entry(category = ENCHANTMENTS, name = "Enable Speed Boost Enchantment", itemDisplay = "minecraft:enchanted_book")
+    @Entry(category = ENCHANTMENTS, name = "Enable Speed Boost Enchantment", itemDisplay = "minecraft:enchanted_book", syncServer = true)
     public static boolean enableSpeedBoost = true;
-    @Entry(category = ENCHANTMENTS, name = "Speed Boost Enchantment Multiplier", min = 0.25, max = 1, precision = 4, isSlider = true, itemDisplay = "minecraft:enchanted_book")
+    @Entry(category = ENCHANTMENTS, name = "Speed Boost Enchantment Multiplier", min = 0.25, max = 1, precision = 4, isSlider = true, itemDisplay = "minecraft:enchanted_book", syncServer = true)
     public static double speedBoostMultiplier = 0.5;
 
     public enum BlockListMode {DISABLED, BLACKLIST, WHITELIST}

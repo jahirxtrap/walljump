@@ -2,7 +2,6 @@ package com.jahirtrap.walljump;
 
 import com.jahirtrap.keybindfix.KeybindFixer;
 import com.jahirtrap.walljump.init.ModConfig;
-import com.jahirtrap.walljump.network.PacketHandler;
 import com.jahirtrap.walljump.sound.FallingSoundInstance;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -27,7 +26,6 @@ public class WallJumpClient implements ClientModInitializer {
     public void onInitializeClient() {
         KeyBindingHelper.registerKeyBinding(KEY_WALL_JUMP);
         KeybindFixer.putKey(KEY_WALL_JUMP);
-        PacketHandler.initClient();
     }
 
     public static void playFallingSound(LocalPlayer player) {

@@ -1,5 +1,6 @@
 package com.jahirtrap.walljump.enchantment;
 
+import com.jahirtrap.walljump.init.ModConfig;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -35,5 +36,15 @@ public class DoubleJumpEnchantment extends Enchantment {
         if (enchantment instanceof ProtectionEnchantment protection)
             return protection.type != ProtectionEnchantment.Type.FALL;
         return this != enchantment;
+    }
+
+    @Override
+    public boolean isTradeable() {
+        return ModConfig.enableEnchantments && ModConfig.enableDoubleJump;
+    }
+
+    @Override
+    public boolean isDiscoverable() {
+        return ModConfig.enableEnchantments && ModConfig.enableDoubleJump;
     }
 }

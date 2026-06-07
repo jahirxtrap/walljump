@@ -1,5 +1,6 @@
 package com.jahirtrap.walljump.enchantment;
 
+import com.jahirtrap.walljump.init.ModConfig;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -27,5 +28,15 @@ public class WallJumpEnchantment extends Enchantment {
     @Override
     public int getMaxCost(int level) {
         return 60;
+    }
+
+    @Override
+    public boolean isTradeable() {
+        return ModConfig.enableEnchantments && ModConfig.enableWallJump;
+    }
+
+    @Override
+    public boolean isDiscoverable() {
+        return ModConfig.enableEnchantments && ModConfig.enableWallJump;
     }
 }
