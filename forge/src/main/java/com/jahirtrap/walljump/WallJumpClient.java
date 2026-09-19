@@ -2,6 +2,7 @@ package com.jahirtrap.walljump;
 
 import com.jahirtrap.walljump.init.ModConfig;
 import com.jahirtrap.walljump.sound.FallingSoundInstance;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
@@ -11,7 +12,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.lwjgl.glfw.GLFW;
 
 import static com.jahirtrap.walljump.WallJumpMod.MODID;
 
@@ -23,7 +23,7 @@ public class WallJumpClient {
 
     public static KeyMapping KEY_WALL_JUMP = new KeyMapping(
             "key.walljump.walljump",
-            GLFW.GLFW_KEY_LEFT_SHIFT,
+            InputConstants.KEY_LSHIFT,
             KEY_CATEGORY_WALL_JUMP
     );
 

@@ -86,12 +86,14 @@ publishMods {
     type = STABLE
     modLoaders.addAll("forge")
     changelog = rootProject.file("CHANGELOG.md").text
-    def gameVersions = ["26.2"]
+    def gameVersions = ["26.3"]
 
     curseforge {
         accessToken = System.getenv("CURSEFORGE_TOKEN")
         projectId = "909143"
         minecraftVersions.addAll(gameVersions)
+        clientRequired = true
+        serverRequired = true
     }
 
     modrinth {
